@@ -1,0 +1,35 @@
+<div class="row mx-5 my-5">
+    @if(data.length == 0){
+    <div class="col-12 text-center">
+        <img src="https://t4.ftcdn.net/jpg/04/52/43/87/360_F_452438771_qBPO91hhFQK5tiJCfff93Y90C0NvT3Zi.jpg"
+            alt="No data to show" style="width: 25rem;height: 25rem;" />
+    </div>
+
+    <div class="col-12 text-center" ng>
+        <h3>Oops! No results found for this category option. Please try another sorting criteria or refine your search.
+        </h3>
+    </div>
+
+    }@else {
+    @for(glass of data;track glass.sno){
+    <div class=" col-12 col-md-6 col-lg-4 my-4 my-sm-2">
+        <div class="card">
+            <img [src]="glass.imgUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-center">{{ glass.title }}</h5>
+                <span class="card-text mx-2 price" style="text-decoration: line-through;">{{ glass.originalPrice |
+                    currency: 'INR' }}</span>
+                <span class="card-text price">{{ glass.finalPrice | currency: 'INR' }}</span>
+                <div class="my-4 d-grid gap-2">
+                    @if(glass.sno != itemCartSno){
+                    <a (click)="addToCart(glass)" class="btn btn-success btn-md">Add to Cart</a>
+                    }@else {
+                    <a (click)="addToCart(glass)" class="btn btn-success btn-md">{{itemCartButtonText}}</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    }
+</div>

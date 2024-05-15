@@ -1,0 +1,108 @@
+<div class="container-fluid">
+    <app-navbar></app-navbar>
+
+    @if(cart.length == 0){
+
+    <div class="col-12 text-center">
+        <img src="https://cdni.iconscout.com/illustration/free/thumb/free-empty-cart-4085814-3385483.png?f=webp"
+            alt="emptyCart" style="width: 20rem;height: 20rem;" />
+    </div>
+    <div class="col-12 text-center">
+        <h2>Your cart is empty</h2>
+    </div>
+    <div class="col-12 text-center">
+        <p>Looks like you haven't made your choice yet</p>
+    </div>
+
+    }@else {
+    <div class="row">
+        <div class="col-12 col-md-8 my-3">
+            <div class="row">
+                <h1 class="text-center">Your Cart</h1>
+            </div>
+
+
+            <div class="row mx-0">
+                @for(item of cart;track item.sno){
+                <div class="col-12">
+                    <div class="card mb-3" style="max-width: 100vw;">
+                        <div class="row">
+                            <button (click)="delete(item.sno)" class="btn col-12 text-end fs-4 pe-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                                    class="bi bi-x-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path
+                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="row g-0">
+                            <div class="col-md-4 p-md-1 py-4 text-center">
+                                <img [src]="item.imgUrl" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8 p-md-5 py-2">
+                                <div class="card-body">
+                                    <h5 class="card-title text-start">{{item.title}}</h5>
+                                    <h5 class="text-end my-5" style="font-size: 2rem;">{{item.finalPrice*item.quantity |
+                                        currency:"INR"}}</h5>
+
+                                    <div class="dropdown">
+                                        <button (click)="itemSelect(item.sno)"
+                                            class="btn btn-outline-success dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Quantity: {{item.quantity}}
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            @for(number of maxQuantity;track number){
+
+                                            <li (click)="increaseQuantity(number)"><a
+                                                    class="dropdown-item">{{number}}</a>
+                                            </li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                }
+
+            </div>
+        </div>
+        <div class="col-12 col-md-4 my-3">
+            <div class="row">
+                <h1 class="text-center">SubTotal</h1>
+            </div>
+            <div class="card p-3">
+                <div class="row">
+                    @for(item of cart;track item.sno){
+                    <div class="h6 col-8 my-3 text-start">{{item.title}}</div>
+                    <div class="col-4 my-3 fs-5">{{item.finalPrice*item.quantity| currency:"INR"}}</div>
+                    }
+                </div>
+                <div class="row mt-3">
+                    <div class="col-8 h6 text-start">Delivery Charges</div>
+                    <div class="col-4 fs-5">{{ checkFreeDelivery == true? "Free": deliveryCharge | currency:"INR"}}
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-8 h4 text-start">Total</div>
+                    <div class="col-4 fs-4">{{totalPrice | currency:"INR"}}</div>
+                </div>
+                <div *ngIf="showSuccessMessage == true" class="alert alert-success text-center" role="alert">
+                    🎉 Congratulations! Enjoy the thrill of FREE delivery! 🚚
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <button class="btn btn-success">Proceed to Checkout</button>
+            </div>
+
+        </div>
+    </div>
+    }
+
+</div>

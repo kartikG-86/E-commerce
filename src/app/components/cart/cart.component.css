@@ -1,0 +1,13 @@
+img{
+    height:15rem;
+    width:15rem;
+}
+
+span{
+    font-size: 2rem;
+}
+
+.counter{
+    display: inline-flex;
+    justify-content: center;
+}

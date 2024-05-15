@@ -1,0 +1,16 @@
+.main-box{
+    background-color: orange;
+    height:4rem;
+}
+
+.individual-category{
+    cursor: pointer;
+    font-size: 1.15rem;
+    color:black;
+    border-right: 1px solid black;
+}
+
+.valign-center{
+    display: inline-flex;
+    align-items: center;
+}

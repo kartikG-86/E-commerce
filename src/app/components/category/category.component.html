@@ -1,0 +1,65 @@
+<div class="my-3 main-box py-3">
+    <div class="row px-5" style="font-weight: bolder;">
+        <div class="col-md-3 text-center individual-category " style="border-right: 1px solid black;">
+
+            <button (click)="categoryClick('eyeglasses')" mat-button [matMenuTriggerFor]="eyeglasses">
+                <div class="valign-center">
+                    <span>
+                        EyeGlasses</span>
+                    <i class="material-icons">arrow_drop_down</i>
+                </div>
+            </button>
+
+        </div>
+        <div class="col-md-3 text-center individual-category" style="border-right: 1px solid black;"> <button
+                (click)="categoryClick('sunglasses')" mat-button [matMenuTriggerFor]="sunglasses">
+                <div class="valign-center">
+                    <span>
+                        SunGlasses</span>
+                    <i class="material-icons">arrow_drop_down</i>
+                </div>
+            </button></div>
+        <div class="col-md-3 text-center individual-category" style="border-right: 1px solid black;"> <button
+                (click)="categoryClick('computerglasses')" mat-button [matMenuTriggerFor]="computerglasses">
+                <div class="valign-center">
+                    <span>
+                        Computer Glasses</span>
+                    <i class="material-icons">arrow_drop_down</i>
+                </div>
+            </button>
+
+        </div>
+        <div class="col-md-3 text-center individual-category" style="border:none">
+            <button (click)="categoryClick('kids')" mat-button [matMenuTriggerFor]="kids">
+                <div class="valign-center">
+                    <span>
+                        Kids</span>
+                    <i class="material-icons">arrow_drop_down</i>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+<mat-menu #eyeglasses="matMenu">
+    <button (click)="categoryItem($event)" mat-menu-item>Men</button>
+    <button (click)="categoryItem($event)" mat-menu-item>Women</button>
+    <button (click)="categoryItem($event)" mat-menu-item>Unisex</button>
+</mat-menu>
+
+<mat-menu #sunglasses="matMenu">
+    <button (click)="categoryItem($event)" mat-menu-item>Men</button>
+    <button (click)="categoryItem($event)" mat-menu-item>Women</button>
+    <button (click)="categoryItem($event)" mat-menu-item>Unisex</button>
+</mat-menu>
+
+<mat-menu #computerglasses="matMenu">
+    <button (click)="categoryItem($event)" mat-menu-item>Men</button>
+    <button (click)="categoryItem($event)" mat-menu-item>Women</button>
+    <button (click)="categoryItem($event)" mat-menu-item>Unisex</button>
+    <button (click)="categoryItem($event)" mat-menu-item>Kids</button>
+</mat-menu>
+
+<mat-menu #kids="matMenu">
+    <button (click)="categoryItem($event)" mat-menu-item>SunGlasses</button>
+    <button (click)="categoryItem($event)" mat-menu-item>Computer Glasses</button>
+</mat-menu>
