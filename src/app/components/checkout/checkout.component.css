@@ -1,0 +1,28 @@
+button{
+    font-weight: bold;
+    
+}
+
+span{
+    color:grey
+}
+
+.button-activate{
+    background-color: rgb(255, 255, 255);
+    border-radius: 20rem;
+}
+
+.small-font{
+    font-size: 0.8rem;
+}
+
+.status{
+    color:#46a6ff;
+    background-color: #dfefff;
+    border-radius: 20rem;
+}
+
+.location{
+    border:1px solid rgba(182, 181, 181, 0.644);border-radius: 2rem;
+    padding:0.2rem;
+}

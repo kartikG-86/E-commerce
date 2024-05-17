@@ -7,6 +7,8 @@ import { LoginComponent } from '../login/login.component';
 import { CommonModule } from '@angular/common';
 import { AlldataService } from '../../services/All Data/alldata.service';
 import { jwtDecode } from 'jwt-decode';
+import { CartLengthService } from '../../services/Cart_length/cart-length.service';
+import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -19,21 +21,19 @@ export class HomeComponent implements OnInit,OnChanges {
   token:any
   user_id:any
   decode:any
+  length:any = 0
+  subject:any
 
-  constructor(public data:AlldataService){
+  constructor(public data:AlldataService,public cartLengthService:CartLengthService){
     this.token = sessionStorage.getItem('token')
+
   }
-
-
-
-  
-
-
 
 glasses:any[] = []
 
 ngOnInit(): void {
   this.getAllData()
+
 }
 copyData:any[] = []
 ngOnChanges(): void {
@@ -54,17 +54,10 @@ getAllData(){
 
 sortData(e:any){
   console.log("I am from sorting",e)
- 
   this.glasses = this.copyData.filter((item)=>{
     console.log(item);
    return item.category.toLowerCase() == e.mainCategory.toLowerCase() && item.gender.toLowerCase() == e.categoryType.toLowerCase() 
   })
-
   console.log("Your sort Data",this.glasses)
 }
-
-
-
-  
-
 }

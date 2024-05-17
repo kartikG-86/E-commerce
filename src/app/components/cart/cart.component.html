@@ -23,11 +23,11 @@
 
 
             <div class="row mx-0">
-                @for(item of cart;track item.sno){
+                @for(item of cart;track item._id){
                 <div class="col-12">
                     <div class="card mb-3" style="max-width: 100vw;">
                         <div class="row">
-                            <button (click)="delete(item.sno)" class="btn col-12 text-end fs-4 pe-5">
+                            <button (click)="deleteItem(item)" class="btn col-12 text-end fs-4 pe-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
                                     class="bi bi-x-circle" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -47,7 +47,7 @@
                                         currency:"INR"}}</h5>
 
                                     <div class="dropdown">
-                                        <button (click)="itemSelect(item.sno)"
+                                        <button (click)="itemSelect(item._id)"
                                             class="btn btn-outline-success dropdown-toggle" type="button"
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             Quantity: {{item.quantity}}
@@ -55,7 +55,7 @@
                                         <ul class="dropdown-menu">
                                             @for(number of maxQuantity;track number){
 
-                                            <li (click)="increaseQuantity(number)"><a
+                                            <li (click)="increaseQuantity(item._id,number)"><a
                                                     class="dropdown-item">{{number}}</a>
                                             </li>
                                             }
@@ -98,7 +98,7 @@
             </div>
 
             <div class="text-center mt-3">
-                <button class="btn btn-success">Proceed to Checkout</button>
+                <button routerLink="/checkout" class="btn btn-success">Proceed to Checkout</button>
             </div>
 
         </div>

@@ -3,10 +3,12 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 import { CartService } from '../../services/Cart/cart.service';
+import { Router,RouterLink } from '@angular/router';
+import { CartLengthService } from '../../services/Cart_length/cart-length.service';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [NavbarComponent,CommonModule],
+  imports: [NavbarComponent,CommonModule,RouterLink],
   
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
@@ -16,8 +18,9 @@ export class CartComponent  implements OnInit {
   token:any = ""
   decode:any
   userId:any
-  constructor(public cart_service : CartService){
+  constructor(public cart_service : CartService , private router:Router,public cart_length_service:CartLengthService){
     this.token = sessionStorage.getItem('token')
+    console.log(this.token,"Your tokeeeen")
     if(this.token){
        this.decode = jwtDecode(this.token)
        this.userId = this.decode.user.id
@@ -25,44 +28,22 @@ export class CartComponent  implements OnInit {
     }
   }
 
-   
-//   cart = [    {
-//     sno:1,
-//   imgUrl:'https://www.ClearDekho.com/wp-content/uploads/2023/03/3143D-copy-768x768.jpg',
-//   title:'ShadySavvy Silver Full Rim Aviator - Eyeglass',
-//   category:'EyeGlasses',
-//   originalPrice:599,
-//   finalPrice:199,
-//   gender:'men',
-//   quantity:1
-// },
-//   {
-//     sno:2,
-//   imgUrl:'https://www.ClearDekho.com/wp-content/uploads/2023/04/3454D-copy-768x768.jpg',
-//   title:'ShadySavvy Floral Blue Full Rim Wayfarer – Eyeglass',
-//   category:'EyeGlasses',
-//   originalPrice:799,
-//   finalPrice:299,
-//   gender:'men',
-//   quantity:1
-// },
-//   {
-//     sno:3,
-//   imgUrl:'https://www.ClearDekho.com/wp-content/uploads/2023/06/3611D-copy-768x768.jpg',
-//   title:'ShadySavvy Black Full Rim Oval – Eyeglasses',
-//   category:'EyeGlasses',
-//   originalPrice:999,
-//   finalPrice:499,
-//   gender:'men',
-//   quantity:1
-// },]
+  ngOnInit(){
+    
+    console.log("CArt",this.token)
+    if(this.token){
+      this.getUpdatedCartItems_from_database()
+    }
+    else{
+      this.getCartItems_from_local()
+       console.log("This cart length",this.cart.length)
+      this.cart_length_service.updateLength(this.cart.length)
+    }
+  }
+
+
 
 cart:any[]  = []
-
-
-
-
-
   selectQuantity:number = 1
   maxQuantity = [1,2,3,4,5]
   itemSelected:number = -1
@@ -73,22 +54,36 @@ cart:any[]  = []
 
   showSuccessMessage:boolean = false
 
-  ngOnInit(){
-    this.calculatePrice()
-    console.log("CArt",this.token)
-    
+  getUpdatedCartItems_from_database(){
     this.cart_service.getCartItems(this.userId).subscribe((res:any)=>{
+      console.log(res)
       this.cart = res
+      this.cart_length_service.updateLength(this.cart.length)
+      this.calculatePrice(this.cart)
     })
+  }
 
-
+  getCartItems_from_local(){
+    let localData = localStorage.getItem('cartData')
+    if(localData){
+      let jsonParseData = JSON.parse(localData as any)
+      this.cart  = jsonParseData
+      this.cart_length_service.updateLength(this.cart.length)
+      this.calculatePrice(this.cart)
+    }
+    else{
+      this.cart = []
+      this.cart_length_service.updateLength(0)
+    }
   }
 
 
-  calculatePrice(){
+
+  calculatePrice(cart:any){
     this.totalPrice = 0
     this.cart.map((item)=>{
       this.totalPrice += item.finalPrice * item.quantity 
+      console.log(this.totalPrice)
     })
     if(this.totalPrice < 1000){
       this.totalPrice += this.deliveryCharge
@@ -103,21 +98,45 @@ cart:any[]  = []
     }
   }
 
-  increaseQuantity(e:any){
+  increaseQuantity(e:any,new_quantity:any){
     console.log(e)
-   
-    this.cart[this.index].quantity = e
-    this.calculatePrice()
+    this.cart[this.index].quantity = new_quantity
+    if(localStorage.getItem('cartData') !== null){
+      localStorage.setItem('cartData',JSON.stringify(this.cart))
+    }
+    else{
+      const data = {
+        productId:e,
+        quantity:new_quantity
+      }
+      this.cart_service.update_quantity(data).subscribe((res)=>{
+        console.log(res)
+      })
+    }
+    this.calculatePrice(this.cart)
   }
 
   itemSelect(e:any){
     console.log(e)
-    
-    this.index = this.cart.findIndex((cartItem)=>  cartItem.sno == e)
+    this.index = this.cart.findIndex((cartItem)=>  cartItem._id == e)
   }
 
-  delete(e:any){
-    this.cart = this.cart.filter((item)=> item.sno != e)
-    this.calculatePrice()
+  deleteItem(e:any){
+    if(localStorage.getItem('cartData') !== null){
+      console.log(e,this.cart,"line 134")
+       this.cart = this.cart.filter((item)=> item._id != e._id)
+       this.cart_length_service.updateLength(this.cart.length)
+       localStorage.setItem('cartData',JSON.stringify(this.cart))
+       this.calculatePrice(this.cart)
+    }
+    else{
+      console.log("cart Id",e)
+      this.cart_service.deleteCartItems(e.cartId).subscribe((res)=>{
+        console.log(res)
+        this.getUpdatedCartItems_from_database()
+      })
+    }
   }
+
+
 }

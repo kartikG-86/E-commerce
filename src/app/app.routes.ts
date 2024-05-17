@@ -5,11 +5,16 @@ import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { CartComponent } from './components/cart/cart.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
     {path:'login',component:LoginComponent},
     {path:'',component:HomeComponent},
     {path:'signUp',component:SignupComponent},
     {path:'forgotPassword',component:ForgotPasswordComponent},
-    {path:'cart',component:CartComponent}
+    {path:'cart',component:CartComponent },
+    // {path:'cart',redirectTo:'login',pathMatch:'full'},
+    // {path:'cart',redirectTo:'checkout',pathMatch:'full'},
+    {path:'checkout',component:CheckoutComponent,canActivate:[authGuard] }
 ];

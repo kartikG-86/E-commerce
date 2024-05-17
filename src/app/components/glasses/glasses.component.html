@@ -21,7 +21,7 @@
                     currency: 'INR' }}</span>
                 <span class="card-text price">{{ glass.finalPrice | currency: 'INR' }}</span>
                 <div class="my-4 d-grid gap-2">
-                    @if(glass.sno != itemCartSno){
+                    @if(glass._id != itemCartSno){
                     <a (click)="addToCart(glass)" class="btn btn-success btn-md">Add to Cart</a>
                     }@else {
                     <a (click)="addToCart(glass)" class="btn btn-success btn-md">{{itemCartButtonText}}</a>
