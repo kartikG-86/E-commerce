@@ -17,13 +17,19 @@ import { CartService } from '../../services/Cart/cart.service';
 export class LoginComponent implements OnInit {
 
   nextUrl:any
+  beforeProceed = false
   constructor(public loginService:LoginService,public repeat_service:RepeatServicesService,public router:Router,public route:ActivatedRoute,public cart_service:CartService,public cart_length_service:CartLengthService){
-   
   }
 
   ngOnInit(): void {
     this.nextUrl = this.route.snapshot.queryParams['returnUrl'] || '/'
     console.log("Your next Url",this.nextUrl)
+    if(this.nextUrl == '/checkout'){
+      this.beforeProceed = true
+      setTimeout(() => {
+          this.beforeProceed = false
+      },1200)
+    }
   }
 
   status:boolean = false
@@ -73,16 +79,9 @@ export class LoginComponent implements OnInit {
     }
       setTimeout(()=>{
        this.status = false
-       this.router.navigateByUrl(this.nextUrl)
+       this.router.navigateByUrl(this.nextUrl == 'checkout' ? '/cart' : '' )
       },1500)
     })
-   
     e.form.reset()
-    
-
-
   }
-
-
-
 }

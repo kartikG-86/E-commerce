@@ -14,11 +14,12 @@ import { ForgotPasswordService } from './services/Forgot_Password/forgot-passwor
 import { CartService } from './services/Cart/cart.service';
 import { RepeatServicesService } from './services/Repeat Services/repeat-services.service';
 import { CartLengthService } from './services/Cart_length/cart-length.service';
+import { OrderService } from './services/Orders/order.service';
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet,NavbarComponent,MainHeadingComponent,CategoryComponent,GlassesComponent,LoginComponent,HomeComponent,HttpClientModule],
-  providers:[AlldataService,SignupService,LoginService,ForgotPasswordService,CartService,RepeatServicesService,CartLengthService,NavbarComponent],
+  providers:[AlldataService,SignupService,LoginService,ForgotPasswordService,CartService,RepeatServicesService,CartLengthService,NavbarComponent,OrderService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

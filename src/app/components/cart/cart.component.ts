@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { CartService } from '../../services/Cart/cart.service';
 import { Router,RouterLink } from '@angular/router';
 import { CartLengthService } from '../../services/Cart_length/cart-length.service';
+import { OrderService } from '../../services/Orders/order.service';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -18,7 +19,7 @@ export class CartComponent  implements OnInit {
   token:any = ""
   decode:any
   userId:any
-  constructor(public cart_service : CartService , private router:Router,public cart_length_service:CartLengthService){
+  constructor(public cart_service : CartService , private router:Router,public cart_length_service:CartLengthService,public orders:OrderService , public route:Router){
     this.token = sessionStorage.getItem('token')
     console.log(this.token,"Your tokeeeen")
     if(this.token){
@@ -138,5 +139,33 @@ cart:any[]  = []
     }
   }
 
+  proceedCheckout(){
+    if(this.token){
+      let orderedData:any[] = []
+      this.cart.map((item) =>{
+          let orderObject = {
+            productId:item._id,
+            placedUserId:this.userId,
+            quantity:item.quantity
+          }
+          orderedData.push(orderObject)
+      })
+      let new_order_data = {
+        orders:orderedData
+      }
+      console.log(new_order_data)
+      this.orders.newOrder(new_order_data).subscribe((res) => {
+        console.log(res)
+        this.cart_service.emptyCart(this.userId).subscribe((res) =>{
+          console.log(res)
+          this.cart_length_service.updateLength(0)
+        })
+        this.route.navigateByUrl('/checkout')
+      })
+    }
+    else{
+      this.route.navigate(['/login'],{queryParams:{returnUrl:'checkout'}})
+    }
+  }
 
 }

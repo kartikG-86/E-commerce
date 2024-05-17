@@ -43,28 +43,37 @@ export class NavbarComponent implements OnInit {
       this.cart_length = data 
     })
   }
-
-  
+  else{
+    
+  }  
  }
 
  cartLength(){
-   
    if(sessionStorage.getItem('token') !== null){
       this.token = sessionStorage.getItem('token')
       let decode = jwtDecode(this.token)
       let userId = (decode as any).user.id
+      console.log(userId)
       this.cartService.getLength(userId).subscribe((res)=>{
         this.cartLength = res
       })
    }
    else{
     let localStorageData = localStorage.getItem('cartData')
-    let parseData = JSON.parse(localStorageData as any)
-    this.cart_length = parseData.length
-     this.cart_length_service.subject.subscribe((res) => {
-      console.log(res)
-       this.cart_length = res
-     })
+    if(localStorageData !== null){
+      let parseData = JSON.parse(localStorageData as any)
+      this.cart_length = parseData.length
+       this.cart_length_service.subject.subscribe((res) => {
+        console.log("NO token",res)
+         this.cart_length = res
+       })
+
+    }
+    else{
+      this.cart_length_service.subject.subscribe((res) => {
+        this.cart_length = res
+      })
+    }
    }
 
  }

@@ -105,7 +105,7 @@ addToCart(e:any){
     
     if(localStoarageData !== null){
       let oldCartData = JSON.parse(localStoarageData)
-      
+      console.log("YOur old data",oldCartData)
       let findSameDataIndex = oldCartData.findIndex((item:any) => item._id == e._id)
       if(findSameDataIndex != -1){
          oldCartData[findSameDataIndex].quantity += 1
@@ -119,15 +119,18 @@ addToCart(e:any){
       localStorage.setItem('cartData',updateData)
     }
     else{
+      console.log("First time data")
       let newData:any[] = []
       newData.push(cartData)
       // update cart length
       this.length = newData.length
-      this.cart_length_service.updateLength(this.length)
+      console.log("Your new length",this.length)
+      this.cart_length_service.updateLength(1)
       let jsonData = JSON.stringify(newData)
       localStorage.setItem('cartData',jsonData)
     }
     // this.addEvent.emit(this.selectedItem)
+    
   }
 
   this.itemCartButtonText = "Your item added  to cart"

@@ -32,4 +32,11 @@ export class CartService {
   getLength(userId:any){
     return this.http.get<any>(`http://localhost:3000/api/cart/cart-length/${userId}`)
   }
+
+  emptyCart(userId:any){
+    console.log(userId)
+    return this.http.get<any>(`http://localhost:3000/api/cart/empty_cart/${userId}`)
+  }
 }
+
+

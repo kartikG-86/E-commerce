@@ -13,14 +13,29 @@
     </div>
 
     <div class="row mx-3 my-3">
+        @if(checkoutData == null){
+        <div class="col-12 text-center my-5">
+            <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/no-item-found-4372273-3626925.png?f=webp"
+                style="width: 15rem;height: 15rem;" />
+
+            <h4 style="font-weight: bold;" class="my-3">Your Cart is Empty</h4>
+            <p style="color:grey" class="my-3">You haven't ordered anything yet. Start exploring our products and place
+                your first
+                order!</p>
+            <button class="btn btn-success" routerLink="/">Go Home</button>
+        </div>
+        }@else {
+
+        @for(orderItem of checkoutData;track orderItem.orderId){
+
         <div class="col-md-6 col-12">
             <div class="card p-3 m-3">
                 <div class=" row">
-                    <div class="col-4">
+                    <div class="col-5">
                         <span class="small-font">Order ID</span>
-                        <h4># 7812657</h4>
+                        <h6># {{orderItem.orderId}}</h6>
                     </div>
-                    <div class="col-8 my-2">
+                    <div class="col-7 my-2">
                         <div class="row">
                             <div class="col-8 text-end small-font" style="color:grey">
                                 <span class="py-1 px-2" style="border-radius: 20rem; border: 1px solid grey;"> Estimated
@@ -58,22 +73,19 @@
                 </div>
 
                 <div class=" card-body row m-3 p-3"
-                    style="border-radius: 1rem; border:1px solid rgba(128, 128, 128, 0.633) ">
+                    style="border-radius: 0.5rem; border:1px solid rgba(128, 128, 128, 0.633) ">
                     <div class="col-12">
                         <div class="col-12 text-end">
-                            Gucci
+                            <span class="btn btn-secondary" style="color:white"> {{orderItem.brandName}}</span>
                         </div>
-                        <div class="row">
-                            <div class="col-4"><img
-                                    src="https://www.cleardekho.com/wp-content/uploads/2023/08/4001D-copy-768x768.jpg"
-                                    style="width: 10rem;height: 10rem;" alt="productImage" /></div>
+                        <div class="row my-3">
+                            <div class="col-4"><img [src]="orderItem.imgUrl" style="width: 10rem;height: 10rem;"
+                                    alt="productImage" /></div>
                             <div class="col-8">
-                                <div class="col-12" style="font-size: 1.3rem; font-weight: bold;">ShadySavvy Blue Full
-                                    Rim
-                                    Wayfarer – Sunglass
+                                <div class="col-12" style="font-size: 1.3rem; font-weight: bold;">{{orderItem.title}}
                                 </div>
                                 <div class="col-12 pt-5 text-end" style="font-size: 2rem; font-weight: 600;">
-                                    ₹1200.00
+                                    {{orderItem.finalPrice | currency:"INR"}}
                                 </div>
 
                             </div>
@@ -82,11 +94,16 @@
                 </div>
 
                 <div class="row mt-3">
-                    <div class="col-8" style="font-weight: bold;">Rs. 2400.00 <span style="font-weight: lighter;">(2
+                    <div class="col-8" style="font-weight: bold; font-size: 1.4rem;">
+                        {{orderItem.quantity*orderItem.finalPrice |
+                        currency:"INR"}} <span style="font-weight: lighter;">({{orderItem.quantity}}
                             items)</span></div>
-                    <div class="col-4 text-end"> <button class="btn px-4 py-2 btn-dark">Details</button></div>
+                    <div class="col-4 text-end"> <button [routerLink]='getUserLink(orderItem)'
+                            class="btn px-4 py-2 btn-dark">Details</button></div>
                 </div>
             </div>
         </div>
+        }
+        }
     </div>
 </div>

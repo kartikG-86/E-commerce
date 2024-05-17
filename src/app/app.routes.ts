@@ -7,6 +7,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { CartComponent } from './components/cart/cart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { authGuard } from './auth.guard';
+import { OrderDetailsComponent } from './components/order-details/order-details.component';
 
 export const routes: Routes = [
     {path:'login',component:LoginComponent},
@@ -16,5 +17,6 @@ export const routes: Routes = [
     {path:'cart',component:CartComponent },
     // {path:'cart',redirectTo:'login',pathMatch:'full'},
     // {path:'cart',redirectTo:'checkout',pathMatch:'full'},
-    {path:'checkout',component:CheckoutComponent,canActivate:[authGuard] }
+    {path:'checkout',component:CheckoutComponent,canActivate:[authGuard] },
+    {path:'order_details/:orderId',component:OrderDetailsComponent}
 ];

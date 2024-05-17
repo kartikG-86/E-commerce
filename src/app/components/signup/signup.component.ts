@@ -49,7 +49,8 @@ export class SignupComponent implements OnInit {
 
     setTimeout(()=>{
       this.status = false;
-      this.router.navigateByUrl(this.nextUrl == '/checkout' ? "/checkout" : '/')
+      console.log(this.nextUrl == "/checkout" ? '/cart' : '/')
+      this.router.navigateByUrl(this.nextUrl == 'checkout' ? "/cart" : '/')
     },1500)
    })
    e.form.reset()
