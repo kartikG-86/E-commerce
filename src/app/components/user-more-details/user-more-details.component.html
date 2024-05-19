@@ -1,0 +1,98 @@
+<div style="overflow: hidden;">
+    <div class="col-11 text-center my-3">
+        <h3> Create Your Profile</h3>
+    </div>
+
+    <div class="my-5">
+        <form class="my-5" #profileForm="ngForm">
+            <div class="row gy-2 overflow-hidden">
+                <div class="col-11 col-md-5 mx-md-5 mx-3 my-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name"
+                            required ngModel #firstName="ngModel">
+                        <label for="firstName" class="form-label" style="font-weight: 600;">First Name</label>
+                    </div>
+                </div>
+                <div class="col-11 col-md-5 mx-md-5 mx-3 my-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last Name"
+                            required ngModel #lastName="ngModel">
+                        <label for="password" class="form-label" style="font-weight: 600;">Last Name</label>
+                    </div>
+                </div>
+
+
+                <div class="col-11 col-md-5 mx-md-5 mx-3 my-3">
+                    <div class=" mb-3 p-2" style="background-color: rgba(210, 210, 210, 0.847);border-radius: 0.3rem;">
+                        <label for="firstName" class="form-label"
+                            style="font-weight: 600;">kartikgoyal0852gmail.com</label>
+                    </div>
+                </div>
+                <div class="col-md-5 col-11 mx-3 mx-md-5 my-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="city" id="city" placeholder="City" required
+                            ngModel #city="ngModel">
+                        <label style="font-weight: 600;" for="city" class="form-label">City</label>
+                    </div>
+                </div>
+                <div class="col-md-5 col-11 mx-3 mx-md-5 my-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="state" id="state" placeholder="State" required
+                            ngModel #state="ngModel">
+                        <label style="font-weight: 600;" for="state" class="form-label">State</label>
+                    </div>
+                </div>
+                <div class="col-11 col-md-5 mx-md-5 mx-3 my-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="pinCode" id="pinCode" placeholder="Pin Code"
+                            required ngModel #pinCode="ngModel">
+                        <label for="pinCode" class="form-label" style="font-weight: 600;">Pin Code</label>
+                    </div>
+                </div>
+
+
+                <div class="col-md-5 col-11 mx-3 mx-md-5 my-3">
+                    <!-- <h6 class="mb-3">Country Code</h6> -->
+                    <select id="countryCodeSelect" style="height:3.5rem" class="form-control" required
+                        name="countryCode" ngModel #countryCode="ngModel">
+                        <option value="" style="font-weight: 600;">
+                            Select a Country
+                        </option>
+                        @for(country of countryPhoneCodes;track country.code){
+                        <option [value]=" country.country + ' ' + country.code">{{country.country}}
+                            {{country.code}}
+                        </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-5 col-11 mx-3 mx-md-5 my-3">
+                    <div class="form-floating mb-3">
+                        <input type="tel" class="form-control" name="phoneNumber" id="phoneNumber"
+                            placeholder="Phone Number" (input)="onPhoneNumberInput($event)" required ngModel
+                            #phoneNumber="ngModel">
+                        <label style="font-weight: 600;" for="phoneNumber" class="form-label">Phone Number</label>
+                    </div>
+                </div>
+
+                <div class="col-11 my-3 mx-3 mx-md-5">
+                    <div class="form-floating mb-3">
+                        <textarea name="address" class="form-control" id="completeAddress"
+                            style="height: 10rem; resize: none;" placeholder="Enter your complete address" ngModel
+                            #address="ngModel"></textarea>
+
+                        <label for="completeAddress" class="form-label" style="font-weight: 600;">Shipping
+                            Address</label>
+                    </div>
+                </div>
+
+                <div class="col-11 mx-5">
+                    <div class="d-grid justify-content-start my-3">
+                        <button class="btn btn-success btn-lg" type="submit"
+                            (click)="profile(profileForm)">Submit</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

@@ -6,6 +6,7 @@ import { CartService } from '../../services/Cart/cart.service';
 import { Router,RouterLink } from '@angular/router';
 import { CartLengthService } from '../../services/Cart_length/cart-length.service';
 import { OrderService } from '../../services/Orders/order.service';
+import { GetUserService } from '../../services/Get_User/get-user.service';
 @Component({
   selector: 'app-cart',
   standalone: true,
@@ -19,7 +20,7 @@ export class CartComponent  implements OnInit {
   token:any = ""
   decode:any
   userId:any
-  constructor(public cart_service : CartService , private router:Router,public cart_length_service:CartLengthService,public orders:OrderService , public route:Router){
+  constructor(public cart_service : CartService , private router:Router,public cart_length_service:CartLengthService , public route:Router,public get_user:GetUserService,public orders:OrderService){
     this.token = sessionStorage.getItem('token')
     console.log(this.token,"Your tokeeeen")
     if(this.token){
@@ -154,14 +155,31 @@ cart:any[]  = []
         orders:orderedData
       }
       console.log(new_order_data)
-      this.orders.newOrder(new_order_data).subscribe((res) => {
+
+      localStorage.setItem('checkoutData',JSON.stringify(new_order_data))
+
+
+      // check Address
+      this.get_user.getUserDetails(this.userId).subscribe((res) =>{
         console.log(res)
-        this.cart_service.emptyCart(this.userId).subscribe((res) =>{
-          console.log(res)
-          this.cart_length_service.updateLength(0)
+        if(res.user.address == ""){
+          this.router.navigateByUrl('/user_details')
+        }
+        else{
+          this.orders.newOrder(new_order_data).subscribe((res) => {
+            console.log(res)
+            this.cart_service.emptyCart(this.userId).subscribe((res) =>{
+              console.log(res)
+              this.cart_length_service.updateLength(0)
+            })
+            this.router.navigateByUrl('/checkout')
+           localStorage.removeItem('checkoutData')
         })
-        this.route.navigateByUrl('/checkout')
+        }
+
       })
+      
+
     }
     else{
       this.route.navigate(['/login'],{queryParams:{returnUrl:'checkout'}})

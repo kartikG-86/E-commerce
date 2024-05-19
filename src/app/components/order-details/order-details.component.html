@@ -100,7 +100,10 @@
                         <div class="col-2"></div>
                         <div class="col-2 text-center"></div>
                         <div class="col-2 text-center">Total</div>
-                        <div class="col-2 text-center">{{orderDetails.quantity * orderDetails.finalPrice}}</div>
+                        <div class="col-2 text-center">{{orderDetails.quantity * orderDetails.finalPrice > 1000 ?
+                            orderDetails.quantity*orderDetails.finalPrice :
+                            orderDetails.quantity*orderDetails.finalPrice + 70}}
+                        </div>
                     </div>
                 </div>
 

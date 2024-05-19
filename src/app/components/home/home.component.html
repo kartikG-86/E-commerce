@@ -1,5 +1,5 @@
 <div style="overflow: hidden;">
-    <app-navbar [token]="token"></app-navbar>
+    <app-navbar [data]="glasses" [token]="token"></app-navbar>
     <app-category (sortEvent)="sortData($event)"></app-category>
     <app-main-heading></app-main-heading>
     <app-glasses [data]="glasses"></app-glasses>

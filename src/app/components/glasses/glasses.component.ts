@@ -7,10 +7,11 @@ import { CartLengthService } from '../../services/Cart_length/cart-length.servic
 import { HomeComponent } from '../home/home.component';
 import { Subject } from 'rxjs';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'app-glasses',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink,RouterLinkActive],
   templateUrl: './glasses.component.html',
   styleUrl: './glasses.component.css'
 })
@@ -28,7 +29,6 @@ export class GlassesComponent implements OnInit  {
   constructor(public add_to_cart_service:CartService,public repeat_service:RepeatServicesService,public cart_length_service:CartLengthService){
     this.data = []
     this.length = 0
-
   }
   
   ngOnInit() {
@@ -140,4 +140,10 @@ addToCart(e:any){
   },1500)
    
 }
+
+productDetails(e:any){
+  console.log(e)
+}
+
+
 }

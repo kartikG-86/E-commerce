@@ -13,7 +13,6 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent {
-  
   token:any
   decode:any
   userId:any
@@ -30,6 +29,10 @@ export class CheckoutComponent {
       console.log(res)
       this.checkoutData = res.orders
       console.log(this.checkoutData)
+      this.checkoutData.forEach((item:any) =>{
+         item.date = new Date(item.date)
+        } )
+      this.checkoutData.reverse()
     })
   }
 

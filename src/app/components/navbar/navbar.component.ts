@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,NgModule } from '@angular/core';
+import { Route, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CartLengthService } from '../../services/Cart_length/cart-length.service';
 import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { CartService } from '../../services/Cart/cart.service';
+import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink,RouterLinkActive,CommonModule],
+  imports: [RouterLink,RouterLinkActive,CommonModule,FormsModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -18,8 +19,9 @@ export class NavbarComponent implements OnInit {
  @Input() token:any = ""
  cart_length:any
  subject:any
+ searchQuery: string = '';
 
- constructor(public cartService:CartService,public cart_length_service:CartLengthService){
+ constructor(public cartService:CartService,public cart_length_service:CartLengthService,public router:Router){
   this.token = sessionStorage.getItem('token')
   this.cart_length = 0
   // this.subject = new BehaviorSubject<number>(100)
@@ -77,5 +79,18 @@ export class NavbarComponent implements OnInit {
    }
 
  }
+
+ logOut(){
+    sessionStorage.removeItem('token')
+    window.location.reload()
+    this.router.navigateByUrl('/')
+ }
+
+ @Input() data:any[] = []
+ get filteredItems() {
+  return this.data.filter(item =>
+    item.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+  );
+}
 
 }

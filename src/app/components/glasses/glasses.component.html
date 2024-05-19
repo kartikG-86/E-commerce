@@ -11,22 +11,22 @@
     </div>
 
     }@else {
-    @for(glass of data;track glass.sno){
+    @for(glass of data;track glass._id){
     <div class=" col-12 col-md-6 col-lg-4 my-4 my-sm-2">
-        <div class="card">
-            <img [src]="glass.imgUrl" class="card-img-top" alt="...">
-            <div class="card-body">
+        <div class="card" style="cursor: pointer;">
+            <div class="card-body" [routerLink]="['/product_details', glass._id]">
+                <img [src]="glass.imgUrl" class="card-img-top" alt="...">
                 <h5 class="card-title text-center">{{ glass.title }}</h5>
                 <span class="card-text mx-2 price" style="text-decoration: line-through;">{{ glass.originalPrice |
                     currency: 'INR' }}</span>
                 <span class="card-text price">{{ glass.finalPrice | currency: 'INR' }}</span>
-                <div class="my-4 d-grid gap-2">
-                    @if(glass._id != itemCartSno){
-                    <a (click)="addToCart(glass)" class="btn btn-success btn-md">Add to Cart</a>
-                    }@else {
-                    <a (click)="addToCart(glass)" class="btn btn-success btn-md">{{itemCartButtonText}}</a>
-                    }
-                </div>
+            </div>
+            <div class="my-4 d-grid gap-2 mx-4">
+                @if(glass._id != itemCartSno){
+                <a (click)="addToCart(glass)" class="btn btn-success btn-md">Add to Cart</a>
+                }@else {
+                <a (click)="addToCart(glass)" class="btn btn-success btn-md">{{itemCartButtonText}}</a>
+                }
             </div>
         </div>
     </div>

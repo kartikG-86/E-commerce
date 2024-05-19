@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
    const data = {
     email:e.form.value.email,
     password:e.form.value.password,
-    name:e.form.value.username
+    userName:e.form.value.username
    }
 
    this.signUpService.postNewUserData(data).subscribe(res => {
