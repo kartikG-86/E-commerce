@@ -1,4 +1,4 @@
-<div class="container-fluid" style="overflow:hidden">
+<div class="container-fluid">
     <app-navbar></app-navbar>
 
     @if(cart.length == 0){
@@ -17,7 +17,7 @@
     }@else {
     <div class="row">
         <div class="col-12 col-md-8 my-3">
-            @if(selectAddress == false){
+            @if(selectAddress == null){
             <div class="row">
                 <h1 class="text-center">Your Cart</h1>
             </div>
@@ -74,7 +74,7 @@
             <app-address></app-address>
             }
         </div>
-        <div class="col-12 col-md-4 my-3">
+        <div class="col-12 col-md-4 my-3" style="overflow-y: hidden;">
             <div class="row">
                 <h1 class="text-center">SubTotal</h1>
             </div>
@@ -99,11 +99,15 @@
                 </div>
             </div>
 
+
+
             <div class="text-center mt-3">
                 <button (click)="proceedCheckout()" class="btn btn-success">Proceed to
-                    {{this.selectAddress == true ? "Buy" : "Checkout"}}</button>
+                    {{this.selectAddress == "address" ? "Buy" : "Checkout"}}</button>
             </div>
         </div>
+
+
     </div>
     }
 

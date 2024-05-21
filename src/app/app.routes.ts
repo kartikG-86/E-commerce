@@ -19,6 +19,7 @@ export const routes: Routes = [
     {path:'signUp',component:SignupComponent},
     {path:'forgotPassword',component:ForgotPasswordComponent},
     {path:'cart',component:CartComponent },
+    {path:'cart/:address',component:CartComponent},
     // {path:'cart',redirectTo:'login',pathMatch:'full'},
     // {path:'cart',redirectTo:'checkout',pathMatch:'full'},
     {path:'checkout',component:CheckoutComponent,canActivate:[authGuard] },

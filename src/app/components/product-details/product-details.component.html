@@ -16,7 +16,8 @@
             <h5 style="color: grey;">Problem in facing order ? Call <span style="color: black;">9958919447</span> </h5>
             <h5>Return & Refund Policy</h5>
 
-            <button class="btn btn-success p-3 px-5 mt-4" style="border-radius: 2rem;">Add to
+            <button (click)="addToCart(productDetails)" class="btn btn-success p-3 px-5 mt-4"
+                style="border-radius: 2rem;">{{added_message ? "Added" : "Add"}} to
                 Cart</button>
 
             <hr class="my-5" />

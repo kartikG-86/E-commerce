@@ -3,7 +3,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 import { CartService } from '../../services/Cart/cart.service';
-import { Router,RouterLink } from '@angular/router';
+import { ActivatedRoute, Router,RouterLink } from '@angular/router';
 import { CartLengthService } from '../../services/Cart_length/cart-length.service';
 import { OrderService } from '../../services/Orders/order.service';
 import { GetUserService } from '../../services/Get_User/get-user.service';
@@ -19,23 +19,29 @@ import { AddressComponent } from '../address/address.component';
 })
 export class CartComponent  implements OnInit {
 
-  token:any = ""
+  token:any
   decode:any
   userId:any
-  selectAddress:boolean = false
-  constructor(public cart_service : CartService , private router:Router,public cart_length_service:CartLengthService , public route:Router,public get_user:GetUserService,public orders:OrderService){
-    this.token = sessionStorage.getItem('token')
-    console.log(this.token,"Your tokeeeen")
-    if(this.token){
-       this.decode = jwtDecode(this.token)
-       this.userId = this.decode.user.id
-       console.log("Cart",this.userId)
+  selectAddress  = ""
+  constructor(public cart_service : CartService , private router:Router,public cart_length_service:CartLengthService , public route:ActivatedRoute,public get_user:GetUserService,public orders:OrderService){
+    
+    if(sessionStorage.getItem('token')){
+      this.token = sessionStorage.getItem('token')
+      console.log(this.token,"Your tokeeeen")
+      this.decode = jwtDecode(this.token)
+      this.userId = this.decode.user.id
+      console.log("Cart",this.userId)
     }
+    
+    this.route.paramMap.subscribe((item)=>{
+     this.selectAddress = item.get('address') as any
+     console.log(this.selectAddress)
+    })
+
   }
 
   ngOnInit(){
     
-    console.log("CArt",this.token)
     if(this.token){
       this.getUpdatedCartItems_from_database()
     }
@@ -44,6 +50,7 @@ export class CartComponent  implements OnInit {
        console.log("This cart length",this.cart.length)
       this.cart_length_service.updateLength(this.cart.length)
     }
+
   }
 
 
@@ -56,7 +63,7 @@ cart:any[]  = []
   deliveryCharge:number = 70
   checkFreeDelivery:boolean = false
   totalPrice:number = 0
-
+  
   showSuccessMessage:boolean = false
 
   getUpdatedCartItems_from_database(){
@@ -144,8 +151,24 @@ cart:any[]  = []
   }
 
   proceedCheckout(){
-    if(this.token){
+
+    if(this.selectAddress == "address" && this.token){
+      let data = localStorage.getItem('checkoutData')
+      let parseData = JSON.parse(data as any)
+                this.orders.newOrder(parseData).subscribe((res) => {
+            console.log(res)
+            this.cart_service.emptyCart(this.userId).subscribe((res) =>{
+              console.log(res)
+              this.cart_length_service.updateLength(0)
+              this.router.navigateByUrl('/checkout')
+             localStorage.removeItem('checkoutData')
+            })
+        })
+    }
+
+    else if(this.token){
       let orderedData:any[] = []
+      console.log(this.cart)
       this.cart.map((item) =>{
           let orderObject = {
             productId:item._id,
@@ -166,30 +189,23 @@ cart:any[]  = []
       // check Address
       this.get_user.getUserDetails(this.userId).subscribe((res) =>{
         console.log(res)
-        if(res.user.addresses.length == 0){
+        if((res.user.addresses as any).length == 0){
           this.router.navigateByUrl('/user_details')
         }
         else{
-          this.selectAddress = true
+          this.router.navigateByUrl('/cart/address')
+
           // let new_order_data = {
           //   orders:orderedData,
           //   address:res.user.addresses[0]
           // }
           localStorage.setItem('checkoutData',JSON.stringify(new_order_data))
-        //   this.orders.newOrder(new_order_data).subscribe((res) => {
-        //     console.log(res)
-        //     this.cart_service.emptyCart(this.userId).subscribe((res) =>{
-        //       console.log(res)
-        //       this.cart_length_service.updateLength(0)
-        //     })
-        //     this.router.navigateByUrl('/checkout')
-        //    localStorage.removeItem('checkoutData')
-        // })
+
         }
       })
     }
     else{
-      this.route.navigate(['/login'],{queryParams:{returnUrl:'checkout'}})
+      this.router.navigate(['/login'],{queryParams:{returnUrl:'checkout'}})
     }
   }
 

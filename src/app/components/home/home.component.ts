@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent,MainHeadingComponent,CategoryComponent,GlassesComponent,LoginComponent,CommonModule],
+  imports: [NavbarComponent,MainHeadingComponent,CategoryComponent,GlassesComponent,LoginComponent,CommonModule,],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

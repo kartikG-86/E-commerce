@@ -7,6 +7,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { CartService } from '../../services/Cart/cart.service';
 import { FormsModule, NgModel } from '@angular/forms';
 import { AlldataService } from '../../services/All Data/alldata.service';
+import { GetUserService } from '../../services/Get_User/get-user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,7 +18,7 @@ import { AlldataService } from '../../services/All Data/alldata.service';
 })
 export class NavbarComponent implements OnInit {
 
- @Input() token:any = ""
+ 
  cart_length:any
  subject:any
  searchQuery: string = '';
@@ -25,8 +26,10 @@ export class NavbarComponent implements OnInit {
  showSearchBox:boolean = false
  all_data:any
  searchData:any[] = []
+ userName:any
+ token:any
 
- constructor(public cartService:CartService,public cart_length_service:CartLengthService,public router:Router,public data_servic:AlldataService){
+ constructor(public cartService:CartService,public cart_length_service:CartLengthService,public router:Router,public data_servic:AlldataService,public get_user:GetUserService,){
   this.token = sessionStorage.getItem('token')
   this.cart_length = 0
   // this.subject = new BehaviorSubject<number>(100)
@@ -36,8 +39,20 @@ export class NavbarComponent implements OnInit {
  }
 
  ngOnInit(){
-  console.log(this.token)
   this.cartLength()
+
+  // decode token  and get userName
+  
+  if(this.token !== null){
+    let decode = jwtDecode(this.token)
+    let userId = (decode as any).user.id
+  
+  this.get_user.getUserDetails(userId).subscribe((res) => {
+       console.log(res)
+       this.userName = res.user.userName[0].toUpperCase()
+       
+    })
+  }
 
   // get All data from database
   this.all_data = this.data_servic.getAllData().subscribe((res) => {
@@ -57,9 +72,7 @@ export class NavbarComponent implements OnInit {
       this.cart_length = data 
     })
   }
-  else{
-    
-  }  
+
  }
 
  cartLength(){

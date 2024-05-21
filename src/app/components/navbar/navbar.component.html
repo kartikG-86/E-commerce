@@ -36,12 +36,23 @@
                 </li>
                 }@else {
 
-                <li class="nav-item mx-5">
-                    <a class="nav-link active" aria-current="page" (click)="logOut()">Log Out</a>
+                <li class="nav-item mx-5 dropdown">
+                    <button class="nav-link active " type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                        aria-current="page">
+                        <div class="text-center p-2"
+                            style=" border-radius: 50%; color:white; height: 3rem;width:3rem;background-color: purple;font-weight: 500;">
+                            {{userName}}
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li (click)="logOut()">
+                                <a class="dropdown-item">LogOut</a>
+                            </li>
+                        </ul>
+                    </button>
                 </li>
                 }
 
-                <li class="nav-item">
+                <li class="nav-item mt-2">
                     <a class="nav-link active" routerLink="/checkout" role="button" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-geo" viewBox="0 0 16 16">
@@ -51,7 +62,7 @@
                         Track Order
                     </a>
                 </li>
-                <li class="nav-item mx-5" routerLink="/cart">
+                <li class="nav-item mx-5 mt-1" routerLink="/cart">
 
                     <a class="nav-link active" aria-disabled="true" style="font-size: 1.2rem;"> <button type="button"
                             class="btn  position-relative">

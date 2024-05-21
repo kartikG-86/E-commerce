@@ -19,6 +19,7 @@ export class AddressComponent {
 
   user:any
   userId:any
+  selectIndex:any
   constructor(public get_user:GetUserService,public orders:OrderService,public cart_service : CartService,public cart_length_service:CartLengthService,public router:Router){
     let token = sessionStorage.getItem('token')
     if(token != null){
@@ -32,8 +33,9 @@ export class AddressComponent {
    
   }
 
-  select_address(e:any) {
+  select_address(e:any,index:any) {
     console.log(e)
+    this.selectIndex = index
     let new_order_data = localStorage.getItem('checkoutData');
     new_order_data = JSON.parse(new_order_data as any)
     let token = sessionStorage.getItem('token')
@@ -44,15 +46,17 @@ export class AddressComponent {
       address:e
     }
     console.log(data)
-          this.orders.newOrder(data).subscribe((res) => {
-            console.log(res)
-            this.cart_service.emptyCart(userId).subscribe((res) =>{
-              console.log(res)
-              this.cart_length_service.updateLength(0)
-              this.router.navigateByUrl('/checkout')
-             localStorage.removeItem('checkoutData')
-            })
-        })
+    localStorage.setItem('checkoutData',JSON.stringify(data))
+
+        //   this.orders.newOrder(data).subscribe((res) => {
+        //     console.log(res)
+        //     this.cart_service.emptyCart(userId).subscribe((res) =>{
+        //       console.log(res)
+        //       this.cart_length_service.updateLength(0)
+        //       this.router.navigateByUrl('/checkout')
+        //      localStorage.removeItem('checkoutData')
+        //     })
+        // })
   }
 
 

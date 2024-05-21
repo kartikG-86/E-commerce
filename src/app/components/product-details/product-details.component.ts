@@ -3,6 +3,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AlldataService } from '../../services/All Data/alldata.service';
 import { CommonModule } from '@angular/common';
+import { AddItemToCartService } from '../../services/Add_Item_to_Cart/add-item-to-cart.service';
 
 @Component({
   selector: 'app-product-details',
@@ -15,8 +16,9 @@ export class ProductDetailsComponent {
 
   productId:any
   productDetails:any
+  added_message = false
 
-  constructor(public router:Router,public route:ActivatedRoute,public data_service:AlldataService){
+  constructor(public router:Router,public route:ActivatedRoute,public data_service:AlldataService,public add_item_cart:AddItemToCartService){
      this.route.paramMap.subscribe((params) => {
       this.productId = params.get('productId');
       console.log(this.productId)
@@ -24,6 +26,14 @@ export class ProductDetailsComponent {
            this.productDetails = res.product
       })
      })
+  }
+
+  addToCart(e:any){
+    this.add_item_cart.add_ItemToCart(e)
+    this.added_message = true
+    setTimeout(() => {
+      this.added_message = false
+    })
   }
 
 
