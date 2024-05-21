@@ -6,6 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { CartService } from '../../services/Cart/cart.service';
 import { FormsModule, NgModel } from '@angular/forms';
+import { AlldataService } from '../../services/All Data/alldata.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,8 +21,12 @@ export class NavbarComponent implements OnInit {
  cart_length:any
  subject:any
  searchQuery: string = '';
+ lastString:string = ""
+ showSearchBox:boolean = false
+ all_data:any
+ searchData:any[] = []
 
- constructor(public cartService:CartService,public cart_length_service:CartLengthService,public router:Router){
+ constructor(public cartService:CartService,public cart_length_service:CartLengthService,public router:Router,public data_servic:AlldataService){
   this.token = sessionStorage.getItem('token')
   this.cart_length = 0
   // this.subject = new BehaviorSubject<number>(100)
@@ -33,6 +38,13 @@ export class NavbarComponent implements OnInit {
  ngOnInit(){
   console.log(this.token)
   this.cartLength()
+
+  // get All data from database
+  this.all_data = this.data_servic.getAllData().subscribe((res) => {
+    this.all_data = res
+  })
+
+
   if(this.token !== null){
     let decode = jwtDecode(this.token)
     let userId = (decode as any).user.id
@@ -86,11 +98,34 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('/')
  }
 
+ @Output() searchEvent = new EventEmitter()
+ search_query(){
+   this.router.navigateByUrl(`/search/${this.searchQuery}`)
+ }
+
+ inputData(e:any){
+  this.searchQuery = e.target.value
+  // console.log(this.searchQuery)
+  // if(this.searchQuery == ""){
+  //   this.showSearchBox = false
+  // }
+  // else{
+  //   this.showSearchBox = true
+  // }
+  // this.searchData = []
+  // this.all_data.map((item:any) => {
+  //   if(item.title.toLowerCase().includes(this.searchQuery.toLowerCase())){
+  //     this.searchData.push(item)
+  //   }
+  // })
+  // console.log(this.searchData)
+ }
+
  @Input() data:any[] = []
- get filteredItems() {
-  return this.data.filter(item =>
-    item.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-  );
-}
+//  get filteredItems() {
+//   return this.data.filter(item =>
+//     item.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+//   );
+// }
 
 }

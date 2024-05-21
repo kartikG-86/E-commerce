@@ -7,10 +7,12 @@ import { Router,RouterLink } from '@angular/router';
 import { CartLengthService } from '../../services/Cart_length/cart-length.service';
 import { OrderService } from '../../services/Orders/order.service';
 import { GetUserService } from '../../services/Get_User/get-user.service';
+import { SelectAddressComponent } from '../select-address/select-address.component';
+import { AddressComponent } from '../address/address.component';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [NavbarComponent,CommonModule,RouterLink],
+  imports: [NavbarComponent,CommonModule,RouterLink,SelectAddressComponent,AddressComponent],
   
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
@@ -20,6 +22,7 @@ export class CartComponent  implements OnInit {
   token:any = ""
   decode:any
   userId:any
+  selectAddress:boolean = false
   constructor(public cart_service : CartService , private router:Router,public cart_length_service:CartLengthService , public route:Router,public get_user:GetUserService,public orders:OrderService){
     this.token = sessionStorage.getItem('token')
     console.log(this.token,"Your tokeeeen")
@@ -151,8 +154,9 @@ cart:any[]  = []
           }
           orderedData.push(orderObject)
       })
+
       let new_order_data = {
-        orders:orderedData
+        orders:orderedData,
       }
       console.log(new_order_data)
 
@@ -162,24 +166,27 @@ cart:any[]  = []
       // check Address
       this.get_user.getUserDetails(this.userId).subscribe((res) =>{
         console.log(res)
-        if(res.user.address == ""){
+        if(res.user.addresses.length == 0){
           this.router.navigateByUrl('/user_details')
         }
         else{
-          this.orders.newOrder(new_order_data).subscribe((res) => {
-            console.log(res)
-            this.cart_service.emptyCart(this.userId).subscribe((res) =>{
-              console.log(res)
-              this.cart_length_service.updateLength(0)
-            })
-            this.router.navigateByUrl('/checkout')
-           localStorage.removeItem('checkoutData')
-        })
+          this.selectAddress = true
+          // let new_order_data = {
+          //   orders:orderedData,
+          //   address:res.user.addresses[0]
+          // }
+          localStorage.setItem('checkoutData',JSON.stringify(new_order_data))
+        //   this.orders.newOrder(new_order_data).subscribe((res) => {
+        //     console.log(res)
+        //     this.cart_service.emptyCart(this.userId).subscribe((res) =>{
+        //       console.log(res)
+        //       this.cart_length_service.updateLength(0)
+        //     })
+        //     this.router.navigateByUrl('/checkout')
+        //    localStorage.removeItem('checkoutData')
+        // })
         }
-
       })
-      
-
     }
     else{
       this.route.navigate(['/login'],{queryParams:{returnUrl:'checkout'}})

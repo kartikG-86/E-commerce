@@ -15,6 +15,7 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 export const routes: Routes = [
     {path:'login',component:LoginComponent},
     {path:'',component:HomeComponent},
+    {path:'search/:searchQuery',component:HomeComponent},
     {path:'signUp',component:SignupComponent},
     {path:'forgotPassword',component:ForgotPasswordComponent},
     {path:'cart',component:CartComponent },

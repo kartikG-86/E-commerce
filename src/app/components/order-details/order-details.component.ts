@@ -17,7 +17,6 @@ export class OrderDetailsComponent implements OnInit {
   constructor(public router:Router,public route:ActivatedRoute,public order_service:OrderService){
     this.orderId = this.route.paramMap.subscribe(params => {
       this.orderId = params.get('orderId')
-      console.log(this.orderId)
       this.order_service.getOrderDetails(this.orderId).subscribe((res) =>{
         console.log(res)
         this.orderDetails = res.orderDetails
@@ -26,7 +25,10 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     
   } 
+
+  getDateObject(e:any){
+    return new Date(e).toDateString()
+  }
 }

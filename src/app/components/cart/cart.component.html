@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" style="overflow:hidden">
     <app-navbar></app-navbar>
 
     @if(cart.length == 0){
@@ -17,12 +17,11 @@
     }@else {
     <div class="row">
         <div class="col-12 col-md-8 my-3">
+            @if(selectAddress == false){
             <div class="row">
                 <h1 class="text-center">Your Cart</h1>
             </div>
-
-
-            <div class="row mx-0">
+            <div class="row mx-0" style="overflow-y: scroll;height:75vh">
                 @for(item of cart;track item._id){
                 <div class="col-12">
                     <div class="card mb-3" style="max-width: 100vw;">
@@ -71,6 +70,9 @@
                 }
 
             </div>
+            }@else {
+            <app-address></app-address>
+            }
         </div>
         <div class="col-12 col-md-4 my-3">
             <div class="row">
@@ -99,7 +101,7 @@
 
             <div class="text-center mt-3">
                 <button (click)="proceedCheckout()" class="btn btn-success">Proceed to
-                    Checkout</button>
+                    {{this.selectAddress == true ? "Buy" : "Checkout"}}</button>
             </div>
         </div>
     </div>

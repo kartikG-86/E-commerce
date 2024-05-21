@@ -259,11 +259,16 @@ export class UserMoreDetailsComponent {
     
     this.user_more_details.User_more_details(userData).subscribe((res) => {
       console.log(res);
-      const new_order_data = localStorage.getItem('checkoutData');
+      let new_order_data = localStorage.getItem('checkoutData');
+      new_order_data = JSON.parse(new_order_data as any)
       let token = sessionStorage.getItem('token')
       let decode = jwtDecode(token as any)
       let userId = (decode as any).user.id
-      this.orders.newOrder(new_order_data).subscribe((res) => {
+      let data = {
+        orders:(new_order_data as any).orders,
+        address:userData
+      }
+      this.orders.newOrder(data).subscribe((res) => {
         console.log(res)
         this.cart_service.emptyCart(userId).subscribe((res) =>{
           console.log(res)
@@ -271,7 +276,6 @@ export class UserMoreDetailsComponent {
         })
         localStorage.removeItem('checkoutData')
         this.router.navigateByUrl('/checkout')
-      
     })
     })
 

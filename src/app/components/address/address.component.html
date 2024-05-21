@@ -1,26 +1,30 @@
-<div style="background-color: #eeeeee;overflow: hidden;height:100vh">
-    <app-navbar></app-navbar>
+<div style="overflow-y: hidden;overflow-x: hidden;height:80vh">
     <div class="row">
-        <h3 class="mx-5 my-5">Your Addresses</h3>
+        <h1 class="mx-5 text-center">Select Address</h1>
     </div>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-xs-12 col-sm-6 col-md-4 col-lg-3 btn mx-0 mx-md-5" routerLink="/user_details">
-                <div class="card p-5">
-                    <h1 class="text-center">+</h1>
-                    <h4 class="text-center">Add Address</h4>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 col-lg-3 mx-0 mx-md-5">
-                <div class="card">
+    <div class="container-fluid my-5">
+        <div class="col-12 text-end " routerLink=" /user_details">
+            <button routerLink="/user_details" class="btn btn-success mx-5">+ Add Address</button>
+        </div>
+        <div class="row my-2" style="overflow-y: scroll; height:80vh">
+
+            <div *ngFor="let user_address of user.addresses; let i = index"
+                class="col-12 col-md-4 col-lg-3 mx-0 my-5 mx-md-5">
+                <div class="card" style="height:20rem;width: 20rem;">
+                    <div class="card-header row  text-end" style="border: none;">
+                        <div class="col-6 text-start">
+                            {{i == 0 ? "Default" : ""}}
+                        </div>
+                        <div class="col-6 text-end">
+                            <button (click)="select_address(user.addresses[i])" class="btn"
+                                style="color:blue;font-weight: 500;">Select</button>
+                        </div>
+                    </div>
                     <div class="card-body">
-                        <h6>Kartik Goyal</h6>
-                        <p>Floor 3
-                            A 167 B Gali no 4 kabir Nagar near maujpur
-                            NEW DELHI, DELHI 110094
-                            India</p>
-                        <p>Phone Number: 9958919447</p>
+                        <h6>{{user_address.name}}</h6>
+                        <p>{{user_address.address}}</p>
+                        <p>Phone Number: {{user_address.phoneNumber}}</p>
 
                         <button class="btn" style="color: green ;font-weight: bold;"
                             routerLink="/user_details">Edit</button>

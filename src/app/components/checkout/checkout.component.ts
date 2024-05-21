@@ -18,20 +18,25 @@ export class CheckoutComponent {
   userId:any
   checkoutData:any
   detailsUrl:any
+  placedDate:any
   constructor(public order_service:OrderService,public router:Router){
     this.token = sessionStorage.getItem('token')
     if(this.token){
       this.decode = jwtDecode(this.token)
       this.userId = this.decode.user.id
-      
     }
     this.order_service.getOrders(this.userId).subscribe((res) => {
       console.log(res)
       this.checkoutData = res.orders
+
+      this.checkoutData.map((item:any) => {
+         item.placedDate = new Date(item.placedDate)
+         item.placedDate.setDate(item.placedDate.getDate() + item.estimatedDeliveryDate)
+         item.placedDate = item.placedDate.toDateString()
+      })
+
       console.log(this.checkoutData)
-      this.checkoutData.forEach((item:any) =>{
-         item.date = new Date(item.date)
-        } )
+
       this.checkoutData.reverse()
     })
   }
@@ -55,7 +60,7 @@ export class CheckoutComponent {
   }
 
   getUserLink(orderItem:any){
-    return `/order_details/${orderItem.orderId}`
+    return `/order_details/${orderItem._id}`
 
   }
 

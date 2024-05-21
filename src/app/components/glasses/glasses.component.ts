@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {  Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {  Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { CartService } from '../../services/Cart/cart.service';
 import { RepeatServicesService } from '../../services/Repeat Services/repeat-services.service';
@@ -23,12 +23,16 @@ export class GlassesComponent implements OnInit  {
   decode:any
   userId:any
   length: any
+  @Input() isLoading:any
+  page:any
 
+  @Output() pageEvent = new EventEmitter()
   private subject = new Subject()
   
   constructor(public add_to_cart_service:CartService,public repeat_service:RepeatServicesService,public cart_length_service:CartLengthService){
     this.data = []
     this.length = 0
+    this.page  = 1
   }
   
   ngOnInit() {
@@ -88,10 +92,7 @@ addToCart(e:any){
             this.cart_length_service.updateLength(this.length)
            })
         })
-
      }
-
-
   }
 
   //if user not logged In
@@ -144,6 +145,22 @@ addToCart(e:any){
 productDetails(e:any){
   console.log(e)
 }
+
+// increasePage(){
+//  this.page = this.page + 1
+//  console.log(this.page) 
+//  this.pageEvent.emit(this.page)
+// }
+
+// decreasePage(){
+//   if(this.page != 1){
+//     this.page = this.page - 1
+//     console.log(this.page)
+//     this.pageEvent.emit(this.page)
+//   }
+// }
+
+
 
 
 }

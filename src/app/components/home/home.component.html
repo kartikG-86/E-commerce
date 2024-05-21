@@ -2,5 +2,5 @@
     <app-navbar [data]="glasses" [token]="token"></app-navbar>
     <app-category (sortEvent)="sortData($event)"></app-category>
     <app-main-heading></app-main-heading>
-    <app-glasses [data]="glasses"></app-glasses>
+    <app-glasses isLoading="isLoading" [data]="glasses"></app-glasses>
 </div>
