@@ -56,85 +56,7 @@ selectedItem = {}
 addToCart(e:any){
 
   this.itemCartSno = e._id
-  // let localStoarageData = localStorage.getItem('cartData');
 
-  // this.token = sessionStorage.getItem('token')
-  // if(this.token){
-  //   this.decode = jwtDecode(this.token)
-  //   this.userId = this.decode.user.id
-  // }
-
-  // // if user Logged In
-  // if(this.userId){
-  //   // Update database 
-  //    if(localStoarageData !== null){
-  //     console.log("local Se hu")
-  //     this.repeat_service.AfterLoginService(localStoarageData,this.userId)
-  //     this.add_to_cart_service.getLength(this.userId).subscribe(data => {
-  //       console.log("Lengthhh from apppi ",data)
-  //       this.length = data.length == 0 ?  data.length + 1 : data.length;
-  //       this.cart_length_service.updateLength(this.length)
-  //      })
-  //    }
-
-  //    // new Item to database
-  //    else{
-  //     console.log('new hu')
-  //       const data = {
-  //         productId:e._id,
-  //         userId:this.userId,
-  //         quantity:1
-  //       }
-
-  //       this.add_to_cart_service.addToCartService(data).subscribe(res => {
-  //         console.log(res)
-  //         this.add_to_cart_service.getLength(this.userId).subscribe(data => {
-  //           console.log("Lengthhh from apppi ",data)
-  //           this.length = data.length;
-  //           this.cart_length_service.updateLength(this.length)
-  //          })
-  //       })
-  //    }
-  // }
-
-  // //if user not logged In
-  // else{
-  //   console.log("Bye id")
-  //   console.log(e)
-  //    let  cartData = {...e}
-  //    console.log("82 line",cartData)
-  //   cartData.quantity = 1
-  //   console.log("Your Selected Item",cartData)
-    
-  //   if(localStoarageData !== null){
-  //     let oldCartData = JSON.parse(localStoarageData)
-  //     console.log("YOur old data",oldCartData)
-  //     let findSameDataIndex = oldCartData.findIndex((item:any) => item._id == e._id)
-  //     if(findSameDataIndex != -1){
-  //        oldCartData[findSameDataIndex].quantity += 1
-  //     }
-  //     else{
-  //       oldCartData.push(cartData)
-  //     }
-  //     this.length = oldCartData.length
-  //     this.cart_length_service.updateLength(this.length)
-  //     let updateData = JSON.stringify(oldCartData)
-  //     localStorage.setItem('cartData',updateData)
-  //   }
-  //   else{
-  //     console.log("First time data")
-  //     let newData:any[] = []
-  //     newData.push(cartData)
-  //     // update cart length
-  //     this.length = newData.length
-  //     console.log("Your new length",this.length)
-  //     this.cart_length_service.updateLength(1)
-  //     let jsonData = JSON.stringify(newData)
-  //     localStorage.setItem('cartData',jsonData)
-  //   }
-  //   // this.addEvent.emit(this.selectedItem)
-    
-  // }
 
    this.add_item_cart.add_ItemToCart(e)  
 
@@ -150,19 +72,7 @@ productDetails(e:any){
   console.log(e)
 }
 
-// increasePage(){
-//  this.page = this.page + 1
-//  console.log(this.page) 
-//  this.pageEvent.emit(this.page)
-// }
 
-// decreasePage(){
-//   if(this.page != 1){
-//     this.page = this.page - 1
-//     console.log(this.page)
-//     this.pageEvent.emit(this.page)
-//   }
-// }
 
 
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, ViewChild,ElementRef  } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { MainHeadingComponent } from '../main-heading/main-heading.component';
 import { CategoryComponent } from '../category/category.component';
@@ -17,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit,OnChanges {
+export class HomeComponent implements OnInit,OnChanges , AfterViewInit {
 
   token:any
   user_id:any
@@ -62,21 +62,21 @@ ngOnChanges(): void {
 
 isLoading: boolean = false;
 
-@HostListener('window:scroll', [])
-onScroll(): void {
-  // console.log(window.innerHeight , window.scrollY , document.body.offsetHeight )
-  if(this.isSearch == false){
-    if ((window.scrollY >= 1216) && (window.innerHeight + window.scrollY) >= document.body.offsetHeight && !this.isLoading) {
-      setTimeout(() => {
-        this.loadMore();
-      },300)
-    }
+// @HostListener('window:scroll', [])
+// onScroll(): void {
+//   // console.log(window.innerHeight , window.scrollY , document.body.offsetHeight )
+//   if(this.isSearch == false){
+//     if ((window.scrollY >= 1216) && (window.innerHeight + window.scrollY) >= document.body.offsetHeight && !this.isLoading) {
+//       setTimeout(() => {
+//         this.loadMore();
+//       },300)
+//     }
   
-    if(window.scrollY >= 2495){
-      this.isLoading = false
-    }
-  }
-}
+//     if(window.scrollY >= 2495){
+//       this.isLoading = false
+//     }
+//   }
+// }
 
 loadMore(): void {
   this.isLoading = true;
@@ -107,5 +107,26 @@ searchData(e:any){
     this.glasses = res
     this.copyData = res
   })
+}
+
+@ViewChild('sentinel', { static: true }) sentinel!: ElementRef;
+items: number[] = [];
+private observer!: IntersectionObserver;
+
+ngAfterViewInit(): void {
+  this.observer = new IntersectionObserver(
+    entries => {
+      console.log(entries)
+      if (entries[0].isIntersecting) {
+        this.loadMore();
+      }
+    },
+    {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5
+    }
+  );
+  this.observer.observe(this.sentinel.nativeElement);
 }
 }
