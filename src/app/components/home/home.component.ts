@@ -10,6 +10,7 @@ import { jwtDecode } from 'jwt-decode';
 import { CartLengthService } from '../../services/Cart_length/cart-length.service';
 import { BehaviorSubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CategoryProductsService } from '../../services/Category/category-products.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -17,8 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit,OnChanges , AfterViewInit {
-
+export class HomeComponent implements OnInit , AfterViewInit {
   token:any
   user_id:any
   decode:any
@@ -26,9 +26,15 @@ export class HomeComponent implements OnInit,OnChanges , AfterViewInit {
   subject:any
   page:number = 1
   isSearch = false
-  searchParams:string = ""
-  constructor(public data:AlldataService,public cartLengthService:CartLengthService,public router:Router,public route:ActivatedRoute){
+  searchParams = ""
+  category = ""
+  subCategory = ""
+  constructor(public data:AlldataService,public cartLengthService:CartLengthService,public router:Router,public route:ActivatedRoute,public get_category_products:CategoryProductsService){
     this.token = sessionStorage.getItem('token')
+    this.route.paramMap.subscribe((res) => {
+         this.category = (res.get('category') as any)
+         this.subCategory = (res.get('subCategory') as any)
+    })
   }
 
 glasses:any[] = []
@@ -36,26 +42,29 @@ glasses:any[] = []
 ngOnInit(): void {
   this.route.paramMap.subscribe((item)=>{
     this.searchParams = (item.get('searchQuery') as string)
-    if(this.searchParams != null){
+    // if(this.searchParams != null){
+    //   this.searchData(this.searchParams)
+    // }
+    // else if(this.searchParams == null){
+    //   this.loadMore()
+    // }
+
+    // sort according to category
+    console.log(this.searchParams,this.category,this.subCategory)
+    if(this.category != null && this.subCategory != null){
+      this.sortData()
+    } 
+    else if(this.searchParams != null ){
       this.searchData(this.searchParams)
     }
-    else if(this.searchParams == null){
+    else{
       this.loadMore()
     }
   })
-
-
 }
 copyData:any[] = []
-ngOnChanges(): void {
-  this.loadMore()  
-}
-
-// pageData(e:any){
-//   this.data.pageData(e).subscribe((item:any)=>{
-//     this.glasses = item;
-//     this.copyData = item;
-//   })
+// ngOnChanges(): void {
+//   this.loadMore()  
 // }
 
 isLoading: boolean = false;
@@ -64,25 +73,33 @@ loadMore(): void {
   this.isLoading = true;
   this.data.pageData(this.page).subscribe(res => {
     this.glasses = [...this.glasses, ...(res as  any)];
+    
     this.page++;
     this.isLoading = false;
+    
   });
 }
 
 
-sortData(e:any){
-  this.glasses = this.copyData.filter((item)=>{
-   return item.category.toLowerCase() == e.mainCategory.toLowerCase() && item.gender.toLowerCase() == e.categoryType.toLowerCase() 
+sortData(){
+  // this.glasses = this.copyData.filter((item)=>{
+  //  return item.category.toLowerCase() == e.mainCategory.toLowerCase() && item.gender.toLowerCase() == e.categoryType.toLowerCase() 
+  // })
+
+  // console.log(this.glasses,this.copyData)
+  this.get_category_products.get_category_products(this.category,this.subCategory).subscribe((res) => {
+    this.glasses = res.products
+    console.log(res.products , this.glasses)
   })
 }
 
 searchData(e:any){
+  this.glasses = []
   this.data.getSearchProducts(e).subscribe((res) => {
-    this.glasses = []
-    this.copyData = []
     this.isSearch = true
     this.glasses = res
-    this.copyData = res
+    console.log(res , this.glasses)
+    
   })
 }
 
@@ -93,7 +110,7 @@ private observer!: IntersectionObserver;
 ngAfterViewInit(): void {
   this.observer = new IntersectionObserver(
     entries => {
-      if (entries[0].isIntersecting) {
+      if (entries[0].isIntersecting && this.category == null && this.subCategory == null && this.searchParams == null) {
         this.loadMore();
       }
     },

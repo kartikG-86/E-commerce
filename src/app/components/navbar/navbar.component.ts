@@ -114,25 +114,10 @@ export class NavbarComponent implements OnInit {
 
  inputData(e:any){
   this.searchQuery = e.target.value
-  // if(this.searchQuery == ""){
-  //   this.showSearchBox = false
-  // }
-  // else{
-  //   this.showSearchBox = true
-  // }
-  // this.searchData = []
-  // this.all_data.map((item:any) => {
-  //   if(item.title.toLowerCase().includes(this.searchQuery.toLowerCase())){
-  //     this.searchData.push(item)
-  //   }
-  // })
+
  }
 
  @Input() data:any[] = []
-//  get filteredItems() {
-//   return this.data.filter(item =>
-//     item.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-//   );
-// }
+
 
 }

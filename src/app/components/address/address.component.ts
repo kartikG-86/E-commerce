@@ -8,6 +8,7 @@ import { OrderService } from '../../services/Orders/order.service';
 import { CartService } from '../../services/Cart/cart.service';
 import { CartLengthService } from '../../services/Cart_length/cart-length.service';
 import { FormsModule } from '@angular/forms';
+import { DeleteUserAddressService } from '../../services/Delete_Address/delete-user-address.service';
 
 @Component({
   selector: 'app-address',
@@ -22,20 +23,26 @@ export class AddressComponent {
   userId:any
   selectIndex:any
 
-  constructor(public get_user:GetUserService,public orders:OrderService,public cart_service : CartService,public cart_length_service:CartLengthService,public router:Router){
+  constructor(public get_user:GetUserService,public orders:OrderService,public cart_service : CartService,public cart_length_service:CartLengthService,public router:Router,public delete_address:DeleteUserAddressService){
     let token = sessionStorage.getItem('token')
     if(token != null){
       let decode = jwtDecode(token)
        this.userId = (decode as any).user.id
     }
-     this.get_user.getUserDetails(this.userId).subscribe((res) => {
-      this.user = res.user
-     })
+    this.getUserDetails(this.userId)
    
+  }
+
+  getUserDetails(userId:any){
+    this.get_user.getUserDetails(this.userId).subscribe((res) => {
+      this.user = res.user
+      console.log(this.user)
+     })
   }
 
   select_address(e:any,index:any) {
     this.selectIndex = index
+    console.log(this.selectIndex)
     let new_order_data = localStorage.getItem('checkoutData');
     new_order_data = JSON.parse(new_order_data as any)
     let token = sessionStorage.getItem('token')
@@ -280,6 +287,20 @@ export class AddressComponent {
   }
   onPhoneNumberInput(e:any){
     
+  }
+
+  removeAddress(e:any){
+    console.log(e,this.user._id)
+    const data = {
+      addressDetails:e,
+      userId:this.user._id
+    }
+
+    this.delete_address.delete_user_address(data).subscribe(res => {
+      console.log(res)
+      this.getUserDetails(this.user._id)
+    })
+
   }
 
 

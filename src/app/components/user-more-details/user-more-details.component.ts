@@ -257,22 +257,24 @@ export class UserMoreDetailsComponent {
     }
     
     this.user_more_details.User_more_details(userData).subscribe((res) => {
-      let new_order_data = localStorage.getItem('checkoutData');
-      new_order_data = JSON.parse(new_order_data as any)
-      let token = sessionStorage.getItem('token')
-      let decode = jwtDecode(token as any)
-      let userId = (decode as any).user.id
-      let data = {
-        orders:(new_order_data as any).orders,
-        address:userData
-      }
-      this.orders.newOrder(data).subscribe((res) => {
-        this.cart_service.emptyCart(userId).subscribe((res) =>{
-          this.cart_length_service.updateLength(0)
-        })
-        localStorage.removeItem('checkoutData')
-        this.router.navigateByUrl('/checkout')
-    })
+    //   let new_order_data = localStorage.getItem('checkoutData');
+    //   new_order_data = JSON.parse(new_order_data as any)
+    //   let token = sessionStorage.getItem('token')
+    //   let decode = jwtDecode(token as any)
+    //   let userId = (decode as any).user.id
+    //   let data = {
+    //     orders:(new_order_data as any).orders,
+    //     address:userData
+    //   }
+    //   this.orders.newOrder(data).subscribe((res) => {
+    //     this.cart_service.emptyCart(userId).subscribe((res) =>{
+    //       this.cart_length_service.updateLength(0)
+    //     })
+    //     localStorage.removeItem('checkoutData')
+    //     this.router.navigateByUrl('/checkout')
+    // })
+
+    this.router.navigateByUrl('/cart/address')
     })
 
 }}

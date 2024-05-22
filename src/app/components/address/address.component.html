@@ -9,9 +9,23 @@
         </div>
         <div class="row my-2" style="overflow-y: scroll; height:80vh">
 
+            @if(user.addresses.length == 0){
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <img
+                            src="https://cdni.iconscout.com/illustration/premium/thumb/no-address-found-4344458-3613886.png" />
+                        <h4> You currently have no saved addresses. Please add a new address to continue with your
+                            purchase.
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            }@else {
+
             <div *ngFor="let user_address of user.addresses; let i = index"
                 class="col-12 col-md-4 col-lg-3 mx-0 my-5 mx-md-5">
-                <div [ngClass]="{'card-border':selectIndex == i}" class="card" style="height:16rem;width: 20rem;">
+                <div [ngClass]="{'card_border':selectIndex == i}" class="card" style="height:16rem;width: 20rem;">
                     <div class="card-header row  text-end" style="border: none;">
                         <div class="col-6 text-start">
                             {{i == 0 ? "Default" : ""}}
@@ -28,10 +42,13 @@
 
                         <button class="btn" style="color: green ;font-weight: bold;"
                             routerLink="/user_details">Edit</button>
-                        <button class="btn" style="color:red;font-weight: bold;">Remove</button>
+                        <button (click)="removeAddress(user_address)" class="btn"
+                            style="color:red;font-weight: bold;">Remove</button>
                     </div>
                 </div>
             </div>
+            }
+
         </div>
 
     </div>

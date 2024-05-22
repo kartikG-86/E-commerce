@@ -18,11 +18,13 @@ import { OrderService } from './services/Orders/order.service';
 import { GetUserService } from './services/Get_User/get-user.service';
 import { UserMoreDetailsService } from './services/Add_User_Details/user-more-details.service';
 import { AddItemToCartService } from './services/Add_Item_to_Cart/add-item-to-cart.service';
+import { CategoryProductsService } from './services/Category/category-products.service';
+import { DeleteUserAddressService } from './services/Delete_Address/delete-user-address.service';
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet,NavbarComponent,MainHeadingComponent,CategoryComponent,GlassesComponent,LoginComponent,HomeComponent,HttpClientModule],
-  providers:[AlldataService,SignupService,LoginService,ForgotPasswordService,CartService,RepeatServicesService,CartLengthService,NavbarComponent,OrderService,GetUserService,UserMoreDetailsService,AddItemToCartService],
+  providers:[AlldataService,SignupService,LoginService,ForgotPasswordService,CartService,RepeatServicesService,CartLengthService,NavbarComponent,OrderService,GetUserService,UserMoreDetailsService,AddItemToCartService,CategoryProductsService,DeleteUserAddressService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
