@@ -18,7 +18,6 @@ export class OrderDetailsComponent implements OnInit {
     this.orderId = this.route.paramMap.subscribe(params => {
       this.orderId = params.get('orderId')
       this.order_service.getOrderDetails(this.orderId).subscribe((res) =>{
-        console.log(res)
         this.orderDetails = res.orderDetails
       })
     })

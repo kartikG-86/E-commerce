@@ -18,15 +18,11 @@ export class CategoryComponent {
   @Output() sortEvent = new EventEmitter()
 
   categoryClick(e:any){
-    console.log(e)
     this.mainCategory = e
-    console.log("Main Category",this.mainCategory)
   }
 
   categoryItem(event:any){
-    console.log(event.target.innerHTML)
     this.categoryType = event.target.innerHTML
-    console.log(this.categoryType)
 
      this.sortEvent.emit({
       categoryType:this.categoryType,

@@ -37,7 +37,6 @@ export class GlassesComponent implements OnInit  {
   }
   
   ngOnInit() {
-    console.log("This is data",this.data)
     this.token = sessionStorage.getItem('token')
     if(this.token){
       this.decode = jwtDecode(this.token)
@@ -61,20 +60,13 @@ addToCart(e:any){
    this.add_item_cart.add_ItemToCart(e)  
 
   this.itemCartButtonText = "Your item added  to cart"
-  console.log(this.itemCartButtonText)
   setTimeout(()=>{
    this.itemCartButtonText = "Add to Cart"
   },1500)
    
 }
 
-productDetails(e:any){
-  console.log(e)
-}
-
-
-
-
-
-
+// productDetails(e:any){
+//   console.log(e)
+// }
 }

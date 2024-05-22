@@ -19,7 +19,6 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.nextUrl = this.route.snapshot.queryParams["returnUrl"] || '/'
-    console.log("Sign Up return url",this.nextUrl)
   }
   
   status:any = 0
@@ -28,7 +27,6 @@ export class SignupComponent implements OnInit {
   
 
   signUp(e:any){
-   console.log(e.form.value)
    const data = {
     email:e.form.value.email,
     password:e.form.value.password,
@@ -36,7 +34,6 @@ export class SignupComponent implements OnInit {
    }
 
    this.signUpService.postNewUserData(data).subscribe(res => {
-    console.log(res)
     this.status = true
     
     this.message = res.message
@@ -49,7 +46,6 @@ export class SignupComponent implements OnInit {
 
     setTimeout(()=>{
       this.status = false;
-      console.log(this.nextUrl == "/checkout" ? '/cart' : '/')
       this.router.navigateByUrl(this.nextUrl == 'checkout' ? "/cart" : '/')
     },1500)
    })

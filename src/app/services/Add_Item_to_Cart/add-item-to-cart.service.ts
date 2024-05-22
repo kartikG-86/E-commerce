@@ -27,10 +27,8 @@ export class AddItemToCartService {
     if(userId){
       // Update database 
        if(localStoarageData !== null){
-        console.log("local Se hu")
         this.repeat_service.AfterLoginService(localStoarageData,userId)
         this.add_to_cart_service.getLength(userId).subscribe(data => {
-          console.log("Lengthhh from apppi ",data)
           length = data.length == 0 ?  data.length + 1 : data.length;
           this.cart_length_service.updateLength(length)
          })
@@ -38,7 +36,6 @@ export class AddItemToCartService {
   
        // new Item to database
        else{
-        console.log('new hu')
           const data = {
             productId:e._id,
             userId:userId,
@@ -46,9 +43,7 @@ export class AddItemToCartService {
           }
   
           this.add_to_cart_service.addToCartService(data).subscribe(res => {
-            console.log(res)
             this.add_to_cart_service.getLength(userId).subscribe(data => {
-              console.log("Lengthhh from apppi ",data)
               length = data.length;
               this.cart_length_service.updateLength(length)
              })
@@ -58,16 +53,11 @@ export class AddItemToCartService {
   
     //if user not logged In
     else{
-      console.log("Bye id")
-      console.log(e)
        let  cartData = {...e}
-       console.log("82 line",cartData)
       cartData.quantity = 1
-      console.log("Your Selected Item",cartData)
       
       if(localStoarageData !== null){
         let oldCartData = JSON.parse(localStoarageData)
-        console.log("YOur old data",oldCartData)
         let findSameDataIndex = oldCartData.findIndex((item:any) => item._id == e._id)
         if(findSameDataIndex != -1){
            oldCartData[findSameDataIndex].quantity += 1
@@ -81,12 +71,10 @@ export class AddItemToCartService {
         localStorage.setItem('cartData',updateData)
       }
       else{
-        console.log("First time data")
         let newData:any[] = []
         newData.push(cartData)
         // update cart length
         length = newData.length
-        console.log("Your new length",length)
         this.cart_length_service.updateLength(1)
         let jsonData = JSON.stringify(newData)
         localStorage.setItem('cartData',jsonData)

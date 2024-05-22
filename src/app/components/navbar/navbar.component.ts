@@ -48,7 +48,6 @@ export class NavbarComponent implements OnInit {
     let userId = (decode as any).user.id
   
   this.get_user.getUserDetails(userId).subscribe((res) => {
-       console.log(res)
        this.userName = res.user.userName[0].toUpperCase()
        
     })
@@ -68,7 +67,6 @@ export class NavbarComponent implements OnInit {
     })
     
     this.cart_length_service.subject.subscribe(data => {
-      console.log("Subscribe Data",data)
       this.cart_length = data 
     })
   }
@@ -80,7 +78,6 @@ export class NavbarComponent implements OnInit {
       this.token = sessionStorage.getItem('token')
       let decode = jwtDecode(this.token)
       let userId = (decode as any).user.id
-      console.log(userId)
       this.cartService.getLength(userId).subscribe((res)=>{
         this.cartLength = res
       })
@@ -91,7 +88,6 @@ export class NavbarComponent implements OnInit {
       let parseData = JSON.parse(localStorageData as any)
       this.cart_length = parseData.length
        this.cart_length_service.subject.subscribe((res) => {
-        console.log("NO token",res)
          this.cart_length = res
        })
 
@@ -118,7 +114,6 @@ export class NavbarComponent implements OnInit {
 
  inputData(e:any){
   this.searchQuery = e.target.value
-  // console.log(this.searchQuery)
   // if(this.searchQuery == ""){
   //   this.showSearchBox = false
   // }
@@ -131,7 +126,6 @@ export class NavbarComponent implements OnInit {
   //     this.searchData.push(item)
   //   }
   // })
-  // console.log(this.searchData)
  }
 
  @Input() data:any[] = []

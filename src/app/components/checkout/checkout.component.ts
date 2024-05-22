@@ -26,7 +26,6 @@ export class CheckoutComponent {
       this.userId = this.decode.user.id
     }
     this.order_service.getOrders(this.userId).subscribe((res) => {
-      console.log(res)
       this.checkoutData = res.orders
 
       this.checkoutData.map((item:any) => {
@@ -35,7 +34,6 @@ export class CheckoutComponent {
          item.placedDate = item.placedDate.toDateString()
       })
 
-      console.log(this.checkoutData)
 
       this.checkoutData.reverse()
     })
@@ -55,7 +53,6 @@ export class CheckoutComponent {
   buttonActivate:number = 1
 
   activeButton(i:number){
-    console.log(i)
     this.buttonActivate = i
   }
 

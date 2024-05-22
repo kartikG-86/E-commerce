@@ -239,7 +239,6 @@ export class UserMoreDetailsComponent {
   }
   
   profile(e:any){
-    console.log(e.form.value)  
     const token = sessionStorage.getItem('token')
     const decode = jwtDecode(token as any)
     const userId = (decode as any).user.id
@@ -258,7 +257,6 @@ export class UserMoreDetailsComponent {
     }
     
     this.user_more_details.User_more_details(userData).subscribe((res) => {
-      console.log(res);
       let new_order_data = localStorage.getItem('checkoutData');
       new_order_data = JSON.parse(new_order_data as any)
       let token = sessionStorage.getItem('token')
@@ -269,9 +267,7 @@ export class UserMoreDetailsComponent {
         address:userData
       }
       this.orders.newOrder(data).subscribe((res) => {
-        console.log(res)
         this.cart_service.emptyCart(userId).subscribe((res) =>{
-          console.log(res)
           this.cart_length_service.updateLength(0)
         })
         localStorage.removeItem('checkoutData')

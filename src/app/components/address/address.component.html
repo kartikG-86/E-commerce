@@ -1,5 +1,5 @@
-<div>
-    <div class=" row">
+<div style="overflow-y: hidden;overflow-x: hidden;height:80vh">
+    <div class="row">
         <h1 class="mx-5 text-center">Select Address</h1>
     </div>
 
@@ -7,29 +7,28 @@
         <div class="col-12 text-end " routerLink=" /user_details">
             <button routerLink="/user_details" class="btn btn-success mx-5">+ New Address</button>
         </div>
-        <div class="container-fluid">
-            <div class="row my-2">
+        <div class="row my-2" style="overflow-y: scroll; height:80vh">
 
-                <div *ngFor="let user_address of user.addresses; let i = index"
-                    class="col-12 col-md-4 col-lg-3 mx-0 my-2 mx-md-5">
-                    <div [ngClass]="{'card_border':selectIndex == i}" class="card" style="height:16rem;width: 20rem;">
-                        <div class="card-header row  text-end" style="border: none;">
-                            <div class="col-6 text-start">
-                                {{i == 0 ? "Default" : ""}}
-                            </div>
-                            <div class="col-6 text-end">
-                                <button (click)="select_address(user.addresses[i],i)" class="btn"
-                                    style="color:blue;font-weight: 500;">Select</button>
-                            </div>
+            <div *ngFor="let user_address of user.addresses; let i = index"
+                class="col-12 col-md-4 col-lg-3 mx-0 my-5 mx-md-5">
+                <div [ngClass]="{'card-border':selectIndex == i}" class="card" style="height:16rem;width: 20rem;">
+                    <div class="card-header row  text-end" style="border: none;">
+                        <div class="col-6 text-start">
+                            {{i == 0 ? "Default" : ""}}
                         </div>
-                        <div class="card-body">
-                            <h6>{{user_address.name}}</h6>
-                            <p>{{user_address.address}}</p>
-                            <p>Phone Number: {{user_address.phoneNumber}}</p>
-                            <button class="btn" style="color: green ;font-weight: bold;"
-                                routerLink="/user_details">Edit</button>
-                            <button class="btn" style="color:red;font-weight: bold;">Remove</button>
+                        <div class="col-6 text-end">
+                            <button (click)="select_address(user.addresses[i],i)" class="btn"
+                                style="color:blue;font-weight: 500;">Select</button>
                         </div>
+                    </div>
+                    <div class="card-body">
+                        <h6>{{user_address.name}}</h6>
+                        <p>{{user_address.address}}</p>
+                        <p>Phone Number: {{user_address.phoneNumber}}</p>
+
+                        <button class="btn" style="color: green ;font-weight: bold;"
+                            routerLink="/user_details">Edit</button>
+                        <button class="btn" style="color:red;font-weight: bold;">Remove</button>
                     </div>
                 </div>
             </div>

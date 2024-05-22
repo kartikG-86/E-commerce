@@ -24,9 +24,6 @@ export class ForgotPasswordComponent {
   message:string = ""
 
   forgotPassword(e:any){
-    console.log(e.form.value)
-
-
     const data = {
       email:e.form.value.email,
       newPassword:e.form.value.newPassword,
@@ -34,7 +31,6 @@ export class ForgotPasswordComponent {
     }
     
     this.forgotPasswordService.updatePassword(data).subscribe((res)=>{
-      console.log(res)
       this.status = true
       this.message = res.message
       sessionStorage.setItem('token',res.token)

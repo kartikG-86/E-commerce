@@ -20,7 +20,6 @@ export class RepeatServicesService {
          quantity:item.quantity
         }
         this.add_to_cart_service.addToCartService(data).subscribe((res)=>{
-         console.log(res)
         })
         this.add_to_cart_service.getLength(userId).subscribe((res) => {
           this.cart_length_service.updateLength(res.length)

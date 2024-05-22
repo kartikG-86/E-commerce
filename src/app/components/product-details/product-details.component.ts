@@ -21,7 +21,6 @@ export class ProductDetailsComponent {
   constructor(public router:Router,public route:ActivatedRoute,public data_service:AlldataService,public add_item_cart:AddItemToCartService){
      this.route.paramMap.subscribe((params) => {
       this.productId = params.get('productId');
-      console.log(this.productId)
       this.data_service.getProductDetails(this.productId).subscribe((res) => {
            this.productDetails = res.product
       })

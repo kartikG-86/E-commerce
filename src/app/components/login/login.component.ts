@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.nextUrl = this.route.snapshot.queryParams['returnUrl'] || '/'
-    console.log("Your next Url",this.nextUrl)
     if(this.nextUrl == '/checkout'){
       this.beforeProceed = true
       setTimeout(() => {
@@ -38,19 +37,16 @@ export class LoginComponent implements OnInit {
   userToken:any
 
   login(e:any){
-    console.log(e.form.value)
     const data = {
       email:e.form.value.email,
       password:e.form.value.password
     }
 
     this.loginService.postLoginUser(data).subscribe((res)=>{
-      console.log(res)
       this.status = true
       this.message = res.message
       
       this.userToken = res.token
-      console.log()
       sessionStorage.setItem('token',res.token)
 
           // store localStorage data to database if present
@@ -58,7 +54,6 @@ export class LoginComponent implements OnInit {
     
     if(localStoarageData !== null){
       // get userId from token
-      console.log("from Login hoo",localStoarageData,this.userToken)
       if(this.userToken){
         let decode = jwtDecode(this.userToken)
         this.userId = (decode as any).user.id
@@ -73,7 +68,6 @@ export class LoginComponent implements OnInit {
         this.userId = (decode as any).user.id
       }
       this.cart_service.getLength(this.userId).subscribe((res) => {
-          console.log('not local storage',res)
           this.cart_length_service.updateLength(res.length)
       })
     }

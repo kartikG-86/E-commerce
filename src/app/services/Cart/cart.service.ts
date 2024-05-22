@@ -34,7 +34,6 @@ export class CartService {
   }
 
   emptyCart(userId:any){
-    console.log(userId)
     return this.http.get<any>(`http://localhost:3000/api/cart/empty_cart/${userId}`)
   }
 }

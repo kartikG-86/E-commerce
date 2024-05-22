@@ -52,9 +52,7 @@ ngOnChanges(): void {
 }
 
 // pageData(e:any){
-//   console.log("Page number",e)
 //   this.data.pageData(e).subscribe((item:any)=>{
-//     console.log("Your item",item)
 //     this.glasses = item;
 //     this.copyData = item;
 //   })
@@ -62,27 +60,10 @@ ngOnChanges(): void {
 
 isLoading: boolean = false;
 
-// @HostListener('window:scroll', [])
-// onScroll(): void {
-//   // console.log(window.innerHeight , window.scrollY , document.body.offsetHeight )
-//   if(this.isSearch == false){
-//     if ((window.scrollY >= 1216) && (window.innerHeight + window.scrollY) >= document.body.offsetHeight && !this.isLoading) {
-//       setTimeout(() => {
-//         this.loadMore();
-//       },300)
-//     }
-  
-//     if(window.scrollY >= 2495){
-//       this.isLoading = false
-//     }
-//   }
-// }
-
 loadMore(): void {
   this.isLoading = true;
   this.data.pageData(this.page).subscribe(res => {
     this.glasses = [...this.glasses, ...(res as  any)];
-    console.log(this.glasses)
     this.page++;
     this.isLoading = false;
   });
@@ -90,19 +71,15 @@ loadMore(): void {
 
 
 sortData(e:any){
-  console.log("I am from sorting",e)
   this.glasses = this.copyData.filter((item)=>{
-    console.log(item);
    return item.category.toLowerCase() == e.mainCategory.toLowerCase() && item.gender.toLowerCase() == e.categoryType.toLowerCase() 
   })
-  console.log("Your sort Data",this.glasses)
 }
 
 searchData(e:any){
   this.data.getSearchProducts(e).subscribe((res) => {
     this.glasses = []
     this.copyData = []
-    console.log("Search Data",res)
     this.isSearch = true
     this.glasses = res
     this.copyData = res
@@ -116,7 +93,6 @@ private observer!: IntersectionObserver;
 ngAfterViewInit(): void {
   this.observer = new IntersectionObserver(
     entries => {
-      console.log(entries)
       if (entries[0].isIntersecting) {
         this.loadMore();
       }

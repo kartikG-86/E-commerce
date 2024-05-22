@@ -25,29 +25,26 @@ export class CartComponent  implements OnInit {
   selectAddress  = ""
   constructor(public cart_service : CartService , private router:Router,public cart_length_service:CartLengthService , public route:ActivatedRoute,public get_user:GetUserService,public orders:OrderService){
     
-    if(sessionStorage.getItem('token')){
       this.token = sessionStorage.getItem('token')
-      console.log(this.token,"Your tokeeeen")
       this.decode = jwtDecode(this.token)
       this.userId = this.decode.user.id
-      console.log("Cart",this.userId)
-    }
+    
     
     this.route.paramMap.subscribe((item)=>{
      this.selectAddress = item.get('address') as any
-     console.log(this.selectAddress)
     })
 
   }
 
   ngOnInit(){
     
-    if(this.token){
+    if(this.token != null){
       this.getUpdatedCartItems_from_database()
     }
     else{
+   
+      
       this.getCartItems_from_local()
-       console.log("This cart length",this.cart.length)
       this.cart_length_service.updateLength(this.cart.length)
     }
 
@@ -68,7 +65,6 @@ cart:any[]  = []
 
   getUpdatedCartItems_from_database(){
     this.cart_service.getCartItems(this.userId).subscribe((res:any)=>{
-      console.log(res)
       this.cart = res
       this.cart_length_service.updateLength(this.cart.length)
       this.calculatePrice(this.cart)
@@ -95,7 +91,6 @@ cart:any[]  = []
     this.totalPrice = 0
     this.cart.map((item)=>{
       this.totalPrice += item.finalPrice * item.quantity 
-      console.log(this.totalPrice)
     })
     if(this.totalPrice < 1000){
       this.totalPrice += this.deliveryCharge
@@ -111,7 +106,6 @@ cart:any[]  = []
   }
 
   increaseQuantity(e:any,new_quantity:any){
-    console.log(e)
     this.cart[this.index].quantity = new_quantity
     if(localStorage.getItem('cartData') !== null){
       localStorage.setItem('cartData',JSON.stringify(this.cart))
@@ -122,29 +116,24 @@ cart:any[]  = []
         quantity:new_quantity
       }
       this.cart_service.update_quantity(data).subscribe((res)=>{
-        console.log(res)
       })
     }
     this.calculatePrice(this.cart)
   }
 
   itemSelect(e:any){
-    console.log(e)
     this.index = this.cart.findIndex((cartItem)=>  cartItem._id == e)
   }
 
   deleteItem(e:any){
     if(localStorage.getItem('cartData') !== null){
-      console.log(e,this.cart,"line 134")
        this.cart = this.cart.filter((item)=> item._id != e._id)
        this.cart_length_service.updateLength(this.cart.length)
        localStorage.setItem('cartData',JSON.stringify(this.cart))
        this.calculatePrice(this.cart)
     }
     else{
-      console.log("cart Id",e)
       this.cart_service.deleteCartItems(e.cartId).subscribe((res)=>{
-        console.log(res)
         this.getUpdatedCartItems_from_database()
       })
     }
@@ -156,9 +145,7 @@ cart:any[]  = []
       let data = localStorage.getItem('checkoutData')
       let parseData = JSON.parse(data as any)
                 this.orders.newOrder(parseData).subscribe((res) => {
-            console.log(res)
             this.cart_service.emptyCart(this.userId).subscribe((res) =>{
-              console.log(res)
               this.cart_length_service.updateLength(0)
               this.router.navigateByUrl('/checkout')
              localStorage.removeItem('checkoutData')
@@ -168,7 +155,6 @@ cart:any[]  = []
 
     else if(this.token){
       let orderedData:any[] = []
-      console.log(this.cart)
       this.cart.map((item) =>{
           let orderObject = {
             productId:item._id,
@@ -181,14 +167,12 @@ cart:any[]  = []
       let new_order_data = {
         orders:orderedData,
       }
-      console.log(new_order_data)
 
       localStorage.setItem('checkoutData',JSON.stringify(new_order_data))
 
 
       // check Address
       this.get_user.getUserDetails(this.userId).subscribe((res) =>{
-        console.log(res)
         if((res.user.addresses as any).length == 0){
           this.router.navigateByUrl('/user_details')
         }
