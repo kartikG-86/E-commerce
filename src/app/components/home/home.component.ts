@@ -72,8 +72,7 @@ isLoading: boolean = false;
 loadMore(): void {
   this.isLoading = true;
   this.data.pageData(this.page).subscribe(res => {
-    this.glasses = [...this.glasses, ...(res as  any)];
-    
+    this.glasses = [...this.glasses, ...(res as  any).allProducts[0].data];
     this.page++;
     this.isLoading = false;
     
@@ -96,8 +95,9 @@ sortData(){
 searchData(e:any){
   this.glasses = []
   this.data.getSearchProducts(e).subscribe((res) => {
+    console.log(res)
     this.isSearch = true
-    this.glasses = res
+    this.glasses = res.allProducts
     console.log(res , this.glasses)
     
   })
@@ -117,7 +117,7 @@ ngAfterViewInit(): void {
     {
       root: null,
       rootMargin: '0px',
-      threshold: 0.5
+      threshold: 1.0
     }
   );
   this.observer.observe(this.sentinel.nativeElement);

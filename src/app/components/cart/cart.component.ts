@@ -23,11 +23,15 @@ export class CartComponent  implements OnInit {
   decode:any
   userId:any
   selectAddress  = ""
+  isSelectAddress:any
   constructor(public cart_service : CartService , private router:Router,public cart_length_service:CartLengthService , public route:ActivatedRoute,public get_user:GetUserService,public orders:OrderService){
-    
+      
+    if(sessionStorage.getItem('token')){
       this.token = sessionStorage.getItem('token')
       this.decode = jwtDecode(this.token)
       this.userId = this.decode.user.id
+
+    }
     
     
     this.route.paramMap.subscribe((item)=>{
@@ -144,13 +148,22 @@ cart:any[]  = []
     if(this.selectAddress == "address" && this.token){
       let data = localStorage.getItem('checkoutData')
       let parseData = JSON.parse(data as any)
-                this.orders.newOrder(parseData).subscribe((res) => {
-            this.cart_service.emptyCart(this.userId).subscribe((res) =>{
-              this.cart_length_service.updateLength(0)
-              this.router.navigateByUrl('/checkout')
-             localStorage.removeItem('checkoutData')
-            })
-        })
+       console.log(parseData.address)
+      if(parseData.address != undefined){
+        this.isSelectAddress = true
+        this.orders.newOrder(parseData).subscribe((res) => {
+        this.cart_service.emptyCart(this.userId).subscribe((res) =>{
+        this.cart_length_service.updateLength(0)
+        this.router.navigateByUrl('/checkout')
+      localStorage.removeItem('checkoutData')
+    })})
+      }
+      else if(parseData.address == undefined){
+        this.isSelectAddress = false
+        setTimeout(() => {
+          this.isSelectAddress = null
+        },800)
+      }
     }
 
     else if(this.token){

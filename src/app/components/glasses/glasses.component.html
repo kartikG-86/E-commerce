@@ -1,56 +1,39 @@
-<div class="row mx-5 my-5">
-    @if(data.length == 0){
-    <div class="col-12 text-center">
-        <img src="https://t4.ftcdn.net/jpg/04/52/43/87/360_F_452438771_qBPO91hhFQK5tiJCfff93Y90C0NvT3Zi.jpg"
-            alt="No data to show" style="width: 25rem;height: 25rem;" />
-    </div>
+<div class="container-fluid">
 
-    <div class="col-12 text-center" ng>
-        <h3>Oops! No results found for this category option. Please try another sorting criteria or refine your search.
-        </h3>
-    </div>
+    <div class="row mx-5 ">
+        @if(data.length == 0){
+        <div class="col-12 text-center">
+            <img src="https://t4.ftcdn.net/jpg/04/52/43/87/360_F_452438771_qBPO91hhFQK5tiJCfff93Y90C0NvT3Zi.jpg"
+                alt="No data to show" style="width: 25rem;height: 25rem;" />
+        </div>
 
-    }@else {
-    @for(glass of data;track glass._id){
-    <div class=" col-12 col-md-6 col-lg-4 my-1">
-        <div class="card" style="cursor: pointer;">
-            <div class="card-body" [routerLink]="['/product_details', glass._id]">
-                <img [src]="glass.imgUrl" class="card-img-top" alt="...">
-                <h5 class="card-title text-center">{{ glass.title }}</h5>
-                <span class="card-text mx-2 price" style="text-decoration: line-through;">{{ glass.originalPrice |
-                    currency: 'INR' }}</span>
-                <span class="card-text price">{{ glass.finalPrice | currency: 'INR' }}</span>
-            </div>
-            <div class="my-4 d-grid gap-2 mx-4">
-                @if(glass._id != itemCartSno){
-                <a (click)="addToCart(glass)" class="btn btn-success btn-md">Add to Cart</a>
-                }@else {
-                <a (click)="addToCart(glass)" class="btn btn-success btn-md">{{itemCartButtonText}}</a>
-                }
+        <div class="col-12 text-center" ng>
+            <h3>Oops! No results found for this category option. Please try another sorting criteria or refine your
+                search.
+            </h3>
+        </div>
+
+        }@else {
+        @for(glass of data;track glass._id){
+        <div class=" col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3 col-xxl-4 my-3">
+            <div class="card" style="cursor: pointer;width: 25rem;height: 39rem;">
+                <div class="card-body" [routerLink]="['/product_details', glass._id]">
+                    <img [src]="glass.imgUrl" class="card-img-top" alt="...">
+                    <h5 class="card-title text-center my-4">{{ glass.title }}</h5>
+                    <span class="card-text mx-2 price" style="text-decoration: line-through;">{{ glass.originalPrice |
+                        currency: 'INR' }}</span>
+                    <span class="card-text price">{{ glass.finalPrice | currency: 'INR' }}</span>
+                </div>
+                <div class="my-4 d-grid gap-2 mx-4">
+                    @if(glass._id != itemCartSno){
+                    <a (click)="addToCart(glass)" class="btn btn-success btn-md">Add to Cart</a>
+                    }@else {
+                    <a (click)="addToCart(glass)" class="btn btn-success btn-md">{{itemCartButtonText}}</a>
+                    }
+                </div>
             </div>
         </div>
+        }
+        }
     </div>
-    }
-    }
-    <!-- <div class="col-12 text-center my-5">
-        <h1>
-            <span (click)="decreasePage()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
-                    class="bi bi-arrow-left-circle mx-5 " style="cursor: pointer;" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
-                </svg>
-            </span>
-            <span (click)="increasePage()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
-                    class="bi bi-arrow-right-circle mx-5" style="cursor: pointer;" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z" />
-                </svg>
-            </span>
-        </h1>
-    </div> -->
-    <!-- <div *ngIf="isLoading" class="loading">
-        Loading more items...
-    </div> -->
 </div>

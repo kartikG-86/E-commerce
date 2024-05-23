@@ -27,5 +27,6 @@ export const routes: Routes = [
     {path:'user_details',component:UserMoreDetailsComponent},
     {path:'user_address',component:AddressComponent},
     {path:'product_details/:productId',component:ProductDetailsComponent},
-    {path:"category/:category/:subCategory",component:HomeComponent}
+    {path:"category/:category/:subCategory",component:HomeComponent},
+    {path:"edit_address/:address",component:UserMoreDetailsComponent}
 ];

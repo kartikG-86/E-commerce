@@ -77,6 +77,9 @@
             <div class="row">
                 <h1 class="text-center">SubTotal</h1>
             </div>
+            <div *ngIf="isSelectAddress == false" class="alert alert-danger" role="alert">
+                Please select address
+            </div>
             <div class="card p-3">
                 <div class="row">
                     @for(item of cart;track item.sno){

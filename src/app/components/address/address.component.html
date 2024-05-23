@@ -26,7 +26,7 @@
             <div *ngFor="let user_address of user.addresses; let i = index"
                 class="col-12 col-md-4 col-lg-3 mx-0 my-5 mx-md-5">
                 <div [ngClass]="{'card_border':selectIndex == i}" class="card" style="height:16rem;width: 20rem;">
-                    <div class="card-header row  text-end" style="border: none;">
+                    <div class="card-header mx-0 row  text-end" style="border: none;width:20rem">
                         <div class="col-6 text-start">
                             {{i == 0 ? "Default" : ""}}
                         </div>
@@ -40,8 +40,8 @@
                         <p>{{user_address.address}}</p>
                         <p>Phone Number: {{user_address.phoneNumber}}</p>
 
-                        <button class="btn" style="color: green ;font-weight: bold;"
-                            routerLink="/user_details">Edit</button>
+                        <button class="btn" style="color: green ;font-weight: bold;" [routerLink]="['/edit_address'
+                            ,user.addresses[i]]">Edit</button>
                         <button (click)="removeAddress(user_address)" class="btn"
                             style="color:red;font-weight: bold;">Remove</button>
                     </div>

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { jwtDecode } from 'jwt-decode';
 import { UserMoreDetailsService } from '../../services/Add_User_Details/user-more-details.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../../services/Orders/order.service';
 import { CartService } from '../../services/Cart/cart.service';
 import { CartLengthService } from '../../services/Cart_length/cart-length.service';
@@ -17,7 +17,17 @@ import { CartLengthService } from '../../services/Cart_length/cart-length.servic
 })
 export class UserMoreDetailsComponent {
 
-  constructor(public user_more_details:UserMoreDetailsService,public router:Router,public orders:OrderService,public cart_service : CartService,public cart_length_service:CartLengthService ){}
+  isEditAddress = false
+  edit_address:any
+  constructor(public user_more_details:UserMoreDetailsService,public router:Router,public orders:OrderService,public cart_service : CartService,public cart_length_service:CartLengthService,public route:ActivatedRoute ){
+
+    this.route.paramMap.subscribe((item) => {
+      this.edit_address = item.get('address')
+      if(this.edit_address != null){
+        this.isEditAddress = true
+      }
+    })
+  }
 
    countryPhoneCodes = [
     { country: "Afghanistan", code: "+93" },

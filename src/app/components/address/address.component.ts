@@ -53,14 +53,6 @@ export class AddressComponent {
       address:e
     }
     localStorage.setItem('checkoutData',JSON.stringify(data))
-
-        //   this.orders.newOrder(data).subscribe((res) => {
-        //     this.cart_service.emptyCart(userId).subscribe((res) =>{
-        //       this.cart_length_service.updateLength(0)
-        //       this.router.navigateByUrl('/checkout')
-        //      localStorage.removeItem('checkoutData')
-        //     })
-        // })
   }
 
   countryPhoneCodes = [
